@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/checkout-completion.css') }}"/>
+    <title>Confirmation</title>
+
+    <div class="status-container">
+        <div class="status">
+            <img src="{{ url_for('static', filename='img/success.svg') }}" class="status-image"/>
+            <img src="{{ url_for('static', filename='img/thank-you.svg') }}" class="status-image-thank-you"/>
+            <p class="status-message">Your order has been successfully placed.</p>
+            <a class="button" href="/">Return Home</a>
+        </div>
+    </div>
+{% endblock %}

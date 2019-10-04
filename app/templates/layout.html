@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <title>Fusion</title>
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+   </head>
+   <body>
+      <header id="header">
+         <a href="{{ url_for('home') }}">
+         <img src="{{ url_for('static', filename='img/mystore-logo.svg') }}" alt="MyStore logo">
+         </a>
+      </header>
+
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+
+  </body>
+</html>
