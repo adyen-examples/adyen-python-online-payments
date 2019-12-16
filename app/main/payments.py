@@ -53,6 +53,31 @@ def initiate_payment(frontend_request):
 
         payment_methods_request["origin"] = "http://localhost:5000"
 
+    # Klarna local payment method requires us to specify line items with tax information, they're hardcoded
+    # for this specific example here. For more information, see https://docs.adyen.com/payment-methods/klarna
+    if payment_methods_request["paymentMethod"]["type"] == "klarna":
+        payment_methods_request["lineItems"] = [
+            {
+                "quantity": "1",
+                "amountExcludingTax": "413",
+                "taxPercentage": "2100",
+                "description": "Sunglasses",
+                "id": "Item #1",
+                "taxAmount": "87",
+                "amountIncludingTax": "500",
+                "taxCategory": "High"
+            },
+            {
+                "quantity": "1",
+                "amountExcludingTax": "413",
+                "taxPercentage": "2100",
+                "description": "Headphones",
+                "id": "Item #2",
+                "taxAmount": "87",
+                "amountIncludingTax": "500",
+                "taxCategory": "High"
+            }]
+
     print("/payments request:\n" + str(payment_methods_request))
     r = requests.post(url=url, headers=headers, json=payment_methods_request)
     text_response = r.text
