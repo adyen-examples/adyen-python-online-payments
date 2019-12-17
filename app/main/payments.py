@@ -61,10 +61,21 @@ def initiate_payment(frontend_request):
     return format_response(r.json())
 
 
+# Custom payment error class
+class PaymentError(Exception):
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        return repr(self.value)
+
+
 # Format response being passed back to frontend. Only leave resultCode and action
 def format_response(response):
-    new_response = {"resultCode": response["resultCode"]}
-    if "action" in response:
-        new_response["action"] = response["action"]
-    return json.dumps(new_response)
-
+    if "resultCode" in response:
+        new_response = {"resultCode": response["resultCode"]}
+        if "action" in response:
+            new_response["action"] = response["action"]
+        return json.dumps(new_response)
+    else:
+        raise PaymentError(response)

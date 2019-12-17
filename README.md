@@ -22,11 +22,10 @@ This repository includes examples of PCI-compliant UI integrations for online pa
 
 1. Clone this repo
 2. Navigate to root level of repo
-3. Run `source ./start.sh` to:
+3. Run `source ./setup.sh` to:
     * Create and activate a virtual environment
-    * Download the necessary python dependencies  
-    * Configure the required environment variables for your Flask instance
-
+    * Download the necessary python dependencies
+ 
 ## Usage
 
 1. Update the config file `config.ini` with your [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key), [Origin Key](https://docs.adyen.com/user-management/how-to-get-an-origin-key), and merchant account name like below:
@@ -35,8 +34,11 @@ This repository includes examples of PCI-compliant UI integrations for online pa
     checkout_apikey = SampleAPIKey
     origin_key = SampleOriginKey
     ```
-2. Start the flask server by running: `flask run`
-3. Visit [http://localhost:5000/](http://localhost:5000/) to select an integration type
+2. Make sure your (venv) is activated by running `source ./venv/bin/activate` from your projects root.
+3. Run `./start.sh` to:
+    * Initialize the required environment variables. This step is necessary every time you re-activate your (venv)
+    * Run flask 
+3. Visit [http://localhost:5000](http://localhost:5000) and select an integration type!
 
 ## Contributing
 

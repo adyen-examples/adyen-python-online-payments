@@ -158,6 +158,7 @@ const onAdditionalDetails = (state, component) => {
 };
 
 const onError = (error) => {
+    console.log(error);
     throw Error(error);
 };
 
@@ -176,6 +177,7 @@ const createAdyenCheckout = () => {
         //     "creditCard.numberField.title": "Custom Card Name",
         // }
     };
+
 
     const configObj = {
         locale: "en_US",

@@ -14,9 +14,10 @@ const dropin = checkout
                 // holderNameRequired: true,
                 enableStoreDetails: true,
                 name: 'Credit or debit card',
-                // placeholders: {
-                //     encryptedCardNumber: 1111111111111111
-                // }
+                placeholders: {
+                    encryptedCardNumber: "",
+                    encryptedSecurityCode: ""
+                }
             }
         },
 
