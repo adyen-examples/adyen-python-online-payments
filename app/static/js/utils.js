@@ -158,7 +158,7 @@ const onAdditionalDetails = (state, component) => {
 };
 
 const onError = (error) => {
-    throw Error(error);
+    throw Error(error)
 };
 
 
