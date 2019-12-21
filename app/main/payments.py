@@ -6,19 +6,43 @@ from flask import json
 '''
 perform a call to /payments
 
-Passing in the following object as frontend_request
+Taking in the following object from our frontend_request
     {
-        amount: getAmount(),
+        amount: {
+            value: 1000,
+            currency: "EUR"
+        },
+        shopperReference: "Fusion Shopper Reference",
+        paymentMethodData: {
+            type: "scheme",
+            encryptedCardNumber: "adyenjs_0_1_25$DQ3JeLb...,
+            encryptedExpiryMonth: "adyenjs_0_1_25$B1JSCp...,
+            encryptedExpiryYear: "adyenjs_0_1_25$h86PBBe...,
+            encryptedSecurityCode: "adyenjs_0_1_25$hrwG6...,
+            holderName: "Joe Bob"
+        },
+        billingAddress: {
+            street: "Brannan Street",
+            city: "San Francisco",
+            stateOrProvince: "California",
+            postalCode: "94107",
+            country: "US",
+            houseNumberOrName: 274
+        },
         browserInfo: {
-            shopperReference: getShopperReference(),
-            colorDepth: screen.colorDepth,
-            screenHeight: screen.height,
-            screenWidth: screen.width,
-            timeZoneOffset: dt.getTimezoneOffset()
+            acceptHeader: "*/*",
+            colorDepth: 24,
+            language: "en-US",
+            javaEnabled: false,
+            screenHeight: 1440,
+            screenWidth: 2560,
+            userAgent: "Mozilla/5.0...,
+            timeZoneOffset: 480
         }
     };
     
-Will use this as the base of our payment request and add the necessary components from our backend
+Will use this as the base of our payment request and add the necessary components from our backend. Feel free to modify
+these values in the frontend utils.js file or to override them here
 
 Returns dictionary representation of JSON response
 '''
@@ -44,14 +68,35 @@ def initiate_payment(frontend_request):
         # resolve country code/location from ip_address however you want. Will hardcode for this example to 'NL'
         payment_methods_request["countryCode"] = 'NL'
 
-        # TODO: Adding browserInfo component, utilize when released
-        payment_methods_request["browserInfo"]["userAgent"] = frontend_request.headers.get('User-Agent')
-        payment_methods_request["browserInfo"]["acceptHeader"] = frontend_request.headers.get('Accept')
-        payment_methods_request["browserInfo"]['language'] = frontend_request.headers.get('Accept-language')
-
         payment_methods_request["additionalData"] = {"allow3DS2": True}
 
         payment_methods_request["origin"] = "http://localhost:5000"
+
+    # Add lineitems for LPMs that require them
+    txvariant = payment_methods_request["paymentMethod"]["type"]
+    if "klarna" in txvariant or txvariant in "ratepay" or txvariant in "afterpay":
+        payment_methods_request["shopperEmail"] = "myEmail@adyen.com"
+        payment_methods_request["lineItems"] = [
+            {
+                "quantity": "1",
+                "amountExcludingTax": "413",
+                "taxPercentage": "2100",
+                "description": "Sunglasses",
+                "id": "Item #1",
+                "taxAmount": "87",
+                "amountIncludingTax": "500",
+                "taxCategory": "High"
+            },
+            {
+                "quantity": "1",
+                "amountExcludingTax": "413",
+                "taxPercentage": "2100",
+                "description": "Headphones",
+                "id": "Item #2",
+                "taxAmount": "87",
+                "amountIncludingTax": "500",
+                "taxCategory": "High"
+            }]
 
     print("/payments request:\n" + str(payment_methods_request))
     r = requests.post(url=url, headers=headers, json=payment_methods_request)

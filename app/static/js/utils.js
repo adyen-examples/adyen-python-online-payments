@@ -38,43 +38,27 @@ const getBillingAddress = () => {
 
 
 // Structure credit card payment request
-const structurePaymentsRequest = (paymentMethodData, billingAddress) => {
-    const dt = new Date();
-
-    paymentMethodData["paymentMethod"]["holderName"] = billingAddress["firstName"].concat(" ", billingAddress["lastName"]);
-    delete billingAddress["firstName"];
-    delete billingAddress["lastName"];
-
+const structureRequest = (data) => {
     const paymentRequest = {
         amount: getAmount(),
         shopperReference: getShopperReference(),
-        ...paymentMethodData,
-        billingAddress,
-        browserInfo: {
-            javaEnabled: window.navigator.javaEnabled(),
-            colorDepth: screen.colorDepth,
-            screenHeight: screen.height,
-            screenWidth: screen.width,
-            timeZoneOffset: dt.getTimezoneOffset()
-        }
+        paymentMethod: data["paymentMethod"]
     };
+
+    // Add holderName, billingAddress, and browserInfo for credit card requests
+    if (data.paymentMethod.type === "scheme") {
+        let billingAddress = getBillingAddress();
+        data["paymentMethod"]["holderName"] = billingAddress["firstName"].concat(" ", billingAddress["lastName"]);
+        delete billingAddress["firstName"];
+        delete billingAddress["lastName"];
+
+        paymentRequest["billingAddress"] = billingAddress;
+        paymentRequest["browserInfo"] = data.browserInfo;
+    }
 
     console.log(paymentRequest);
     return paymentRequest;
 };
-
-
-// Structure a /payments request for the iDEAL payment method
-const structureIdealPaymentsRequest = (paymentMethodData) => {
-    const paymentRequest = {
-        amount: getAmount(),
-        shopperReference: getShopperReference(),
-        ...paymentMethodData
-    };
-
-    return paymentRequest;
-};
-
 
 // Parse payment response and directing shopper to correct place
 const handleFinalState = (resultCode) => {
@@ -85,15 +69,6 @@ const handleFinalState = (resultCode) => {
         window.location.href = "http://localhost:5000/checkout/failed";
     }
 };
-
-const stringifyPayment = (data, name) => {
-    if (name === 'iDEAL') {
-        return structureIdealPaymentsRequest(data);
-    } else {
-        return structurePaymentsRequest(data, getBillingAddress());
-    }
-};
-
 
 /*
  * Dropin and Component event handlers
@@ -108,7 +83,7 @@ const onSubmit = (state, component) => {
             Accept: 'application/json, text/plain, */*',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(stringifyPayment(state.data, component.props.name))
+        body: JSON.stringify(structureRequest(state.data))
     }).then(response => response.json())
         .then(response => {
             if (response.action) {
@@ -159,7 +134,6 @@ const onAdditionalDetails = (state, component) => {
 
 const onError = (error) => {
     console.log(error);
-    throw Error(error);
 };
 
 
