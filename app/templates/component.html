@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css">
+
+    <div class="checkout">
+        <div class="title">{{ method }} Checkout</div>
+
+        <div class="payment-components-container">
+            <div class="checkout-component">
+
+                <div id="component">
+                    <!-- Component will be rendered here -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js"></script>
+
+    <script id="payment-methods" type="application/json">{{ payment_methods|tojson }}</script>
+    <script id="origin-key" type="application/json">{{ origin_key|tojson }}</script>
+    <script id="integration-type" type="application/json">{{ method|tojson }}</script>
+
+    <script src="{{ url_for('static', filename='js/adyen_implementations.js') }}"></script>
+{% endblock %}

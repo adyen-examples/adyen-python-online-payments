@@ -10,7 +10,7 @@ Should have a payment state on your server from which you can fetch information 
 '''
 
 
-def get_payment_methods():
+def adyen_payment_methods():
     url = config.checkout_payment_methods_url
 
     headers = {"X-Api-Key": config.checkout_apikey, "Content-type": "application/json"}
@@ -20,7 +20,7 @@ def get_payment_methods():
     payment_methods_request["merchantAccount"] = config.merchant_account
 
     # resolve country code/location from ip_address however you want. Will hardcode for this example to 'NL'
-    payment_methods_request["countryCode"] = 'NL'
+    # payment_methods_request["countryCode"] = 'BE'
 
     # get reference however you want. For this demo we will hardcode
     payment_methods_request["reference"] = 'Fusion Reference'

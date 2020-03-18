@@ -10,7 +10,7 @@ Taking in the following object from our frontend_request
     {
         amount: {
             value: 1000,
-            currency: "EUR"
+            currency: "EUR" //dynamically chosen based on componenet
         },
         shopperReference: "Fusion Shopper Reference",
         paymentMethodData: {
@@ -42,13 +42,13 @@ Taking in the following object from our frontend_request
     };
     
 Will use this as the base of our payment request and add the necessary components from our backend. Feel free to modify
-these values in the frontend utils.js file or to override them here
+these values in the frontend adyen_implementations.js file or to override them here
 
 Returns dictionary representation of JSON response
 '''
 
 
-def initiate_payment(frontend_request):
+def adyen_payments(frontend_request):
     url = config.checkout_payments_url
 
     headers = {"X-Api-Key": config.checkout_apikey, "Content-type": "application/json"}
@@ -66,7 +66,7 @@ def initiate_payment(frontend_request):
         ip_address = frontend_request.environ.get('HTTP_X_REAL_IP', frontend_request.remote_addr)
 
         # resolve country code/location from ip_address however you want. Will hardcode for this example to 'NL'
-        payment_methods_request["countryCode"] = 'NL'
+        payment_methods_request["countryCode"] = 'US'
 
         payment_methods_request["additionalData"] = {"allow3DS2": True}
 
@@ -76,24 +76,25 @@ def initiate_payment(frontend_request):
     txvariant = payment_methods_request["paymentMethod"]["type"]
     if "klarna" in txvariant or txvariant in "ratepay" or txvariant in "afterpay":
         payment_methods_request["shopperEmail"] = "myEmail@adyen.com"
+        payment_methods_request["shopperLocale"] = "en_US"
         payment_methods_request["lineItems"] = [
             {
                 "quantity": "1",
-                "amountExcludingTax": "413",
-                "taxPercentage": "2100",
+                "amountExcludingTax": "450",
+                "taxPercentage": "1111",
                 "description": "Sunglasses",
                 "id": "Item #1",
-                "taxAmount": "87",
+                "taxAmount": "50",
                 "amountIncludingTax": "500",
                 "taxCategory": "High"
             },
             {
                 "quantity": "1",
-                "amountExcludingTax": "413",
-                "taxPercentage": "2100",
+                "amountExcludingTax": "450",
+                "taxPercentage": "1111",
                 "description": "Headphones",
                 "id": "Item #2",
-                "taxAmount": "87",
+                "taxAmount": "50",
                 "amountIncludingTax": "500",
                 "taxCategory": "High"
             }]

@@ -3,8 +3,8 @@ import os
 from flask import Flask, render_template, send_from_directory, request, redirect, url_for, abort
 
 from .main.config import read_config
-from .main.payments import initiate_payment
-from .main.payment_methods import get_payment_methods
+from .main.payments import adyen_payments
+from .main.payment_methods import adyen_payment_methods
 from .main.redirect import handle_shopper_redirect
 from .main.additional_details import get_payment_details
 import app.main.config as config
@@ -28,29 +28,29 @@ def create_app():
     def home():
         return render_template('home.html')
 
-    @app.route('/<integration>/cart')
+    @app.route('/cart/<integration>')
     def cart(integration):
         return render_template('cart.html', method=integration)
 
-    @app.route('/<integration>/checkout')
+    @app.route('/checkout/<integration>')
     def checkout(integration):
-        payment_methods_response = get_payment_methods()
+        payment_methods_response = adyen_payment_methods()
         origin_key = config.origin_key
-        if integration == 'dropin':
-            return render_template('dropin.html', method=integration, payment_methods=payment_methods_response,
-                                   origin_key=origin_key)
-        elif integration == 'card':
-            return render_template('card.html', method=integration, payment_methods=payment_methods_response,
-                                   origin_key=origin_key)
-        elif integration == 'ideal':
-            return render_template('ideal.html', method=integration, payment_methods=payment_methods_response,
+
+        if integration in config.supported_integrations:
+            return render_template('component.html', method=integration, payment_methods=payment_methods_response,
                                    origin_key=origin_key)
         else:
             abort(404)
 
+    @app.route('/getPaymentMethods', methods=['GET'])
+    def get_payment_methods():
+        payment_methods_response = adyen_payment_methods()
+        return payment_methods_response
+
     @app.route('/initiatePayment', methods=['POST'])
-    def init_payments():
-        payment_response = initiate_payment(request)
+    def initiate_payment():
+        payment_response = adyen_payments(request)
         return payment_response
 
     @app.route('/submitAdditionalDetails', methods=['POST'])
@@ -72,12 +72,20 @@ def create_app():
         else:
             return render_template('fetch-payment-data.html', values=values)
 
-    @app.route('/checkout/complete', methods=['GET'])
+    @app.route('/success', methods=['GET'])
     def checkout_success():
-        return render_template('checkout-complete.html')
+        return render_template('checkout-success.html')
 
-    @app.route('/checkout/failed', methods=['GET'])
+    @app.route('/failed', methods=['GET'])
     def checkout_failure():
+        return render_template('checkout-failed.html')
+
+    @app.route('/pending', methods=['GET'])
+    def checkout_pending():
+        return render_template('checkout-success.html')
+
+    @app.route('/error', methods=['GET'])
+    def checkout_error():
         return render_template('checkout-failed.html')
 
     @app.route('/favicon.ico')
