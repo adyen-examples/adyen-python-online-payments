@@ -65,8 +65,10 @@ def create_app():
         # Fetch paymentData from the frontend if we have not already
         if 'paymentData' in values:
             redirect_response = handle_shopper_redirect(values)
-            if redirect_response["resultCode"] == 'Authorised' or redirect_response["resultCode"] == 'Received':
+            if redirect_response["resultCode"] == 'Authorised':
                 return redirect(url_for('checkout_success'))
+            elif redirect_response["resultCode"] == 'Received' or redirect_response["resultCode"] == 'Pending':
+                return redirect(url_for('checkout_pending'))
             else:
                 return redirect(url_for('checkout_failure'))
         else:

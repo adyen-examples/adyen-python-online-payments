@@ -19,11 +19,7 @@ def adyen_payment_methods():
     payment_methods_request["channel"] = "web"
     payment_methods_request["merchantAccount"] = config.merchant_account
 
-    # resolve country code/location from ip_address however you want. Will hardcode for this example to 'NL'
-    # payment_methods_request["countryCode"] = 'BE'
-
-    # get reference however you want. For this demo we will hardcode
-    payment_methods_request["reference"] = 'Fusion Reference'
+    payment_methods_request["reference"] = 'Fusion paymentMethods call'
 
     print("/paymentMethods request:\n" + str(payment_methods_request))
     r = requests.post(url=url, headers=headers, json=payment_methods_request)

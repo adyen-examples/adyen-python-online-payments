@@ -52,7 +52,7 @@ def adyen_payments(frontend_request):
     url = config.checkout_payments_url
 
     headers = {"X-Api-Key": config.checkout_apikey, "Content-type": "application/json"}
-
+    # TODO: configure amount dynamically
     payment_methods_request = frontend_request.get_json()
     payment_methods_request["channel"] = "Web"
     payment_methods_request["merchantAccount"] = config.merchant_account
@@ -71,6 +71,10 @@ def adyen_payments(frontend_request):
         payment_methods_request["additionalData"] = {"allow3DS2": True}
 
         payment_methods_request["origin"] = "http://localhost:5000"
+
+    elif payment_methods_request["paymentMethod"]["type"] in ["Alipay", "WeChatPay"]:
+        payment_methods_request["countryCode"] = 'CN'
+        payment_methods_request["amount"]["currency"] = 'CNY'
 
     # Add lineitems for LPMs that require them
     txvariant = payment_methods_request["paymentMethod"]["type"]
