@@ -12,7 +12,7 @@ origin_key = ""
 checkout_payment_methods_url = ""
 checkout_payments_url = ""
 checkout_detail_url = ""
-supported_integrations = ['dropin', 'card', 'ideal', 'klarna', 'directEbanking', 'alipay', 'wechatpayWeb',
+supported_integrations = ['dropin', 'card', 'ideal', 'klarna', 'directEbanking', 'alipay',
                                   'boletobancario', 'sepadirectdebit', 'dotpay', 'giropay', 'ach']
 
 

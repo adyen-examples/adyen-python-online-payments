@@ -8,11 +8,6 @@ perform a call to /payments
 
 Taking in the following object from our frontend_request
     {
-        amount: {
-            value: 1000,
-            currency: "EUR" //dynamically chosen based on componenet
-        },
-        shopperReference: "Fusion Shopper Reference",
         paymentMethodData: {
             type: "scheme",
             encryptedCardNumber: "adyenjs_0_1_25$DQ3JeLb...,
@@ -52,8 +47,10 @@ def adyen_payments(frontend_request):
     url = config.checkout_payments_url
 
     headers = {"X-Api-Key": config.checkout_apikey, "Content-type": "application/json"}
-    # TODO: configure amount dynamically
+
     payment_methods_request = frontend_request.get_json()
+    payment_methods_request["amount"] = {"currency": choose_currency(payment_methods_request["paymentMethod"]["type"]),
+                                         "value": "1000"}
     payment_methods_request["channel"] = "Web"
     payment_methods_request["merchantAccount"] = config.merchant_account
     payment_methods_request["returnUrl"] = "http://localhost:5000/handleShopperRedirect"
@@ -61,6 +58,7 @@ def adyen_payments(frontend_request):
     # get reference however you want. For this demo we will hardcode
     # Your reference should be unique. To simulate this, we will append a random int to our reference
     payment_methods_request["reference"] = 'Fusion Reference' + str(randint(0, 10000))
+    payment_methods_request["shopperReference"] = 'Fusion Shopper Reference'
 
     if payment_methods_request["paymentMethod"]["type"] != "ideal":
         ip_address = frontend_request.environ.get('HTTP_X_REAL_IP', frontend_request.remote_addr)
@@ -74,7 +72,6 @@ def adyen_payments(frontend_request):
 
     elif payment_methods_request["paymentMethod"]["type"] in ["Alipay", "WeChatPay"]:
         payment_methods_request["countryCode"] = 'CN'
-        payment_methods_request["amount"]["currency"] = 'CNY'
 
     # Add lineitems for LPMs that require them
     txvariant = payment_methods_request["paymentMethod"]["type"]
@@ -118,6 +115,20 @@ class PaymentError(Exception):
 
     def __str__(self):
         return repr(self.value)
+
+
+def choose_currency(payment_method):
+    print(payment_method)
+    if payment_method == "alipay":
+        return "CNY"
+    elif payment_method == "dotpay":
+        return "PLN"
+    elif payment_method == "boletobancario":
+        return "BRL"
+    elif payment_method == "ach":
+        return "USD"
+    else:
+        return "EUR"
 
 
 # Format response being passed back to frontend. Only leave resultCode and action
