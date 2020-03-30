@@ -7,7 +7,7 @@ venv/
 
 *.pyc
 __pycache__/
-fusion.egg-info
+*.egg-info
 dist
 build
 .vscode
