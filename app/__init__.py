@@ -12,7 +12,7 @@ import app.main.config as config
 
 # Fusion Application Factory
 def create_app():
-    app = Flask('fusion')
+    app = Flask('Adyen')
 
     # Update root_path to specific module. If using multiple modules, can define relative to instance path
     app.root_path = app.root_path + '/app'
@@ -43,22 +43,22 @@ def create_app():
         else:
             abort(404)
 
-    @app.route('/getPaymentMethods', methods=['GET'])
+    @app.route('/api/getPaymentMethods', methods=['GET'])
     def get_payment_methods():
         payment_methods_response = adyen_payment_methods()
         return payment_methods_response
 
-    @app.route('/initiatePayment', methods=['POST'])
+    @app.route('/api/initiatePayment', methods=['POST'])
     def initiate_payment():
         payment_response = adyen_payments(request)
         return payment_response
 
-    @app.route('/submitAdditionalDetails', methods=['POST'])
+    @app.route('/api/submitAdditionalDetails', methods=['POST'])
     def payment_details():
         details_response = get_payment_details(request)
         return details_response
 
-    @app.route('/handleShopperRedirect', methods=['POST', 'GET'])
+    @app.route('/api/handleShopperRedirect', methods=['POST', 'GET'])
     def handle_redirect():
         values = request.json if request.is_json else request.values.to_dict()  # Get values from request object
 

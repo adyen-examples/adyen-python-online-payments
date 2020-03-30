@@ -46,7 +46,7 @@ This repository includes examples of PCI-compliant UI integrations for online pa
 3. Run `./start.sh` to:
     * Initialize the required environment variables. This step is necessary every time you re-activate your (venv)
     * Run flask 
-3. Visit [http://localhost:5000](http://localhost:5000) and select an integration type!
+3. Visit [http://localhost:8080](http://localhost:8080) and select an integration type!
 
 ## Contributing
 
