@@ -8,8 +8,16 @@ This repository includes examples of PCI-compliant UI integrations for online pa
 
 * [Drop-in](https://docs.adyen.com/checkout/drop-in-web)
 * [Component](https://docs.adyen.com/checkout/components-web)
+  * ACH
+  * Alipay
+  * Boleto
   * Card
+  * Dotpay
+  * Giropay
   * iDEAL
+  * Klarna
+  * Sofort
+  
 
 ## Requirements
 
