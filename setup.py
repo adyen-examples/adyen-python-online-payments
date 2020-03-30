@@ -12,14 +12,14 @@ requires = [
 ]
 
 setup(
-    name='fusion',
+    name='Adyen checkout',
     version='1.0',
     packages=find_packages(),
     url='',
     license='MIT',
-    author='tyler',
+    author='adyen',
     author_email='',
-    description='Sample Python Flask Integration',
+    description='Sample Adyen Python Flask Integration',
     long_description=long_description,
     install_requires=requires
 )
