@@ -37,7 +37,7 @@ const handleFinalState = (resultCode) => {
  */
 
 const onSubmit = (state, component) => {
-    fetch(`/initiatePayment`, {
+    fetch(`/api/initiatePayment`, {
         method: 'POST',
         headers: {
             Accept: 'application/json, text/plain, */*',
@@ -64,7 +64,7 @@ const onSubmit = (state, component) => {
 
 const onAdditionalDetails = (state, component) => {
     console.log("On additionalDetails triggered");
-    fetch(`/submitAdditionalDetails`, {
+    fetch(`/api/submitAdditionalDetails`, {
         method: 'POST',
         headers: {
             Accept: 'application/json, text/plain, */*',

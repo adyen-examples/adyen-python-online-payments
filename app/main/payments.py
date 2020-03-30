@@ -53,7 +53,7 @@ def adyen_payments(frontend_request):
                                          "value": "1000"}
     payment_methods_request["channel"] = "Web"
     payment_methods_request["merchantAccount"] = config.merchant_account
-    payment_methods_request["returnUrl"] = "http://localhost:5000/handleShopperRedirect"
+    payment_methods_request["returnUrl"] = "http://localhost:5000/api/handleShopperRedirect"
 
     # get reference however you want. For this demo we will hardcode
     # Your reference should be unique. To simulate this, we will append a random int to our reference
