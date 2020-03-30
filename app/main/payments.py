@@ -6,7 +6,7 @@ from flask import json
 '''
 perform a call to /payments
 
-Taking in the following object from our frontend_request
+Taking in the following object from our frontend_request. billingAddress and browserInfo only sent for cards
     {
         paymentMethodData: {
             type: "scheme",
