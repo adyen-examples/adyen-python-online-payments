@@ -17,16 +17,16 @@ const structureRequest = (data) => {
 // Parse payment response and directing shopper to correct place
 const handleFinalState = (resultCode) => {
     if (resultCode === 'Authorised') {
-        window.location.href = "http://localhost:5000/success";
+        window.location.href = "http://localhost:8080/success";
 
     } else if (resultCode === 'Pending') {
-        window.location.href = "http://localhost:5000/pending";
+        window.location.href = "http://localhost:8080/pending";
 
     } else if (resultCode === 'Error') {
-        window.location.href = "http://localhost:5000/error";
+        window.location.href = "http://localhost:8080/error";
 
     } else {
-        window.location.href = "http://localhost:5000/failed";
+        window.location.href = "http://localhost:8080/failed";
     }
 };
 
