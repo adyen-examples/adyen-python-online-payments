@@ -49,33 +49,25 @@ def adyen_payments(frontend_request):
     headers = {"X-Api-Key": config.checkout_apikey, "Content-type": "application/json"}
 
     payment_methods_request = frontend_request.get_json()
-    payment_methods_request["amount"] = {"currency": choose_currency(payment_methods_request["paymentMethod"]["type"]),
+    txvariant = payment_methods_request["paymentMethod"]["type"]
+
+    payment_methods_request["amount"] = {"currency": choose_currency(txvariant),
                                          "value": "1000"}
     payment_methods_request["channel"] = "Web"
     payment_methods_request["merchantAccount"] = config.merchant_account
-    payment_methods_request["returnUrl"] = "http://localhost:5000/api/handleShopperRedirect"
+    payment_methods_request["returnUrl"] = "http://localhost:8080/api/handleShopperRedirect"
 
     # get reference however you want. For this demo we will hardcode
     # Your reference should be unique. To simulate this, we will append a random int to our reference
-    payment_methods_request["reference"] = 'Fusion Reference' + str(randint(0, 10000))
-    payment_methods_request["shopperReference"] = 'Fusion Shopper Reference'
+    payment_methods_request["reference"] = 'Python Integration Test Reference' + str(randint(0, 10000))
+    payment_methods_request["shopperReference"] = 'Python Checkout Shopper'
 
-    if payment_methods_request["paymentMethod"]["type"] != "ideal":
-        ip_address = frontend_request.environ.get('HTTP_X_REAL_IP', frontend_request.remote_addr)
+    payment_methods_request["countryCode"] = 'NL'
 
-        # resolve country code/location from ip_address however you want. Will hardcode for this example to 'NL'
-        payment_methods_request["countryCode"] = 'US'
-
-        payment_methods_request["additionalData"] = {"allow3DS2": True}
-
-        payment_methods_request["origin"] = "http://localhost:5000"
-
-    elif payment_methods_request["paymentMethod"]["type"] in ["Alipay", "WeChatPay"]:
+    if txvariant in ["Alipay", "WeChatPay"]:
         payment_methods_request["countryCode"] = 'CN'
 
-    # Add lineitems for LPMs that require them
-    txvariant = payment_methods_request["paymentMethod"]["type"]
-    if "klarna" in txvariant or txvariant in "ratepay" or txvariant in "afterpay":
+    elif "klarna" in txvariant:
         payment_methods_request["shopperEmail"] = "myEmail@adyen.com"
         payment_methods_request["shopperLocale"] = "en_US"
         payment_methods_request["lineItems"] = [
@@ -99,6 +91,12 @@ def adyen_payments(frontend_request):
                 "amountIncludingTax": "500",
                 "taxCategory": "High"
             }]
+    elif txvariant == "scheme":
+        payment_methods_request["additionalData"] = {"allow3DS2": "true"}
+        payment_methods_request["origin"] = "http://localhost:8080"
+
+    elif txvariant == "ach":
+        payment_methods_request["countryCode"] = 'US'
 
     print("/payments request:\n" + str(payment_methods_request))
     r = requests.post(url=url, headers=headers, json=payment_methods_request)
