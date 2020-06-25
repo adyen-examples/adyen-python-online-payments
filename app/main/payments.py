@@ -63,13 +63,13 @@ def adyen_payments(frontend_request):
     payment_methods_request["shopperReference"] = 'Python Checkout Shopper'
 
     payment_methods_request["countryCode"] = 'NL'
+    payment_methods_request["shopperLocale"] = "en_US"
 
-    if txvariant in ["Alipay", "WeChatPay"]:
+    if txvariant == "alipay":
         payment_methods_request["countryCode"] = 'CN'
 
     elif "klarna" in txvariant:
         payment_methods_request["shopperEmail"] = "myEmail@adyen.com"
-        payment_methods_request["shopperLocale"] = "en_US"
         payment_methods_request["lineItems"] = [
             {
                 "quantity": "1",
@@ -91,11 +91,18 @@ def adyen_payments(frontend_request):
                 "amountIncludingTax": "500",
                 "taxCategory": "High"
             }]
+    elif txvariant == "directEbanking" or txvariant == "giropay":
+        payment_methods_request["countryCode"] = "DE"
+
+    elif txvariant == "dotpay":
+        payment_methods_request["countryCode"] = "PL"
+        payment_methods_request["amount"]["currency"] = "PLN"
+
     elif txvariant == "scheme":
         payment_methods_request["additionalData"] = {"allow3DS2": "true"}
         payment_methods_request["origin"] = "http://localhost:8080"
 
-    elif txvariant == "ach":
+    elif txvariant == "ach" or txvariant == "paypal":
         payment_methods_request["countryCode"] = 'US'
 
     print("/payments request:\n" + str(payment_methods_request))
@@ -116,14 +123,13 @@ class PaymentError(Exception):
 
 
 def choose_currency(payment_method):
-    print(payment_method)
     if payment_method == "alipay":
         return "CNY"
     elif payment_method == "dotpay":
         return "PLN"
     elif payment_method == "boletobancario":
         return "BRL"
-    elif payment_method == "ach":
+    elif payment_method == "ach" or payment_method == "paypal":
         return "USD"
     else:
         return "EUR"
