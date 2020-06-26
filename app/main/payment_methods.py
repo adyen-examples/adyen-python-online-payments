@@ -20,6 +20,7 @@ def adyen_payment_methods():
     payment_methods_request["merchantAccount"] = config.merchant_account
 
     payment_methods_request["reference"] = 'Fusion paymentMethods call'
+    payment_methods_request["shopperReference"] = 'Python Checkout Shopper'
 
     print("/paymentMethods request:\n" + str(payment_methods_request))
     r = requests.post(url=url, headers=headers, json=payment_methods_request)
