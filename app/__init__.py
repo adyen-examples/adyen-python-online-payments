@@ -35,11 +35,11 @@ def create_app():
     @app.route('/checkout/<integration>')
     def checkout(integration):
         payment_methods_response = adyen_payment_methods()
-        origin_key = config.origin_key
+        client_key = config.client_key
 
         if integration in config.supported_integrations:
             return render_template('component.html', method=integration, payment_methods=payment_methods_response,
-                                   origin_key=origin_key)
+                                   client_key=client_key)
         else:
             abort(404)
 

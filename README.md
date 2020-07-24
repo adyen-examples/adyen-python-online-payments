@@ -36,11 +36,11 @@ This repository includes examples of PCI-compliant UI integrations for online pa
  
 ## Usage
 
-1. Update the config file `config.ini` with your [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key), [Origin Key](https://docs.adyen.com/user-management/how-to-get-an-origin-key), and merchant account name like below:
+1. Update the config file `config.ini` with your [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key), [Client Key](https://docs.adyen.com/user-management/client-side-authentication), and merchant account name like below:
     ```
     merchant_account = TestMerchantAccount
     checkout_apikey = SampleAPIKey
-    origin_key = SampleOriginKey
+    client_key = SampleClientKey
     ```
 2. Make sure your (venv) is activated by running `source ./venv/bin/activate` from your projects root.
 3. Run `./start.sh` to:
