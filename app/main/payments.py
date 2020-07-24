@@ -65,6 +65,8 @@ def adyen_payments(frontend_request):
     payment_methods_request["countryCode"] = 'NL'
     payment_methods_request["shopperLocale"] = "en_US"
 
+    payment_methods_request["storePaymentMethod"] = "true"
+
     if txvariant == "alipay":
         payment_methods_request["countryCode"] = 'CN'
 
@@ -104,6 +106,7 @@ def adyen_payments(frontend_request):
 
     elif txvariant == "ach" or txvariant == "paypal":
         payment_methods_request["countryCode"] = 'US'
+
 
     print("/payments request:\n" + str(payment_methods_request))
     r = requests.post(url=url, headers=headers, json=payment_methods_request)

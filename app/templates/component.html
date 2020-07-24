@@ -1,32 +1,32 @@
 {% extends "layout.html" %}
 {% block content %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.9.4/adyen.css"
-          integrity="sha384-6qrXvoxlnBlrflZQ9g5Yf5oZapUSSXctPxacP9oRcEukbEO7lXisuSyMKG8pDX8V"
-          crossorigin="anonymous">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.10.1/adyen.css"
+		  integrity="sha384-8ofgICZZ/k5cC5N7xegqFZOA73H9RQ7H13439JfAZW8Gj3qjuKL2isaTD3GMIhDE"
+		  crossorigin="anonymous">
 
-    <div id="payment-page">
-        <div class="container">
-            <div class="checkout-component payment-container" style="width: 100%; max-width: 100%;">
+	<div id="payment-page">
+		<div class="container">
+			<div class="checkout-component payment-container" style="width: 100%; max-width: 100%;">
 
-                <div id="component" class="payment">
-                    <!-- Component will be rendered here -->
-                </div>
+				<div id="component" class="payment">
+					<!-- Component will be rendered here -->
+				</div>
 
-            </div>
-        </div>
-    </div>
+			</div>
+		</div>
+	</div>
 
 
-    <script src="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.9.4/adyen.js"
-            integrity="sha384-8Q8tz/+hf+UkS01nLrKLJgQLdaR1hRklqJQksCHh903UIfW+xMt275Lms4GZgVUi"
-            crossorigin="anonymous"></script>
+	<script src="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.10.1/adyen.js"
+			integrity="sha384-wG2z9zSQo61EIvyXmiFCo+zB3y0ZB4hsrXVcANmpP8HLthjoQJQPBh7tZKJSV8jA"
+			crossorigin="anonymous"></script>
 
-    <script id="payment-methods" type="application/json">{{ payment_methods|tojson }}</script>
-    <script id="origin-key" type="application/json">{{ origin_key|tojson }}</script>
-    <script id="integration-type" type="application/json">{{ method|tojson }}</script>
+	<script id="payment-methods" type="application/json">{{ payment_methods|tojson }}</script>
+	<script id="origin-key" type="application/json">{{ origin_key|tojson }}</script>
+	<script id="integration-type" type="application/json">{{ method|tojson }}</script>
 
-    <script src="{{ url_for('static', filename='js/adyen_implementations.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/adyen_implementations.js') }}"></script>
 {% endblock %}
