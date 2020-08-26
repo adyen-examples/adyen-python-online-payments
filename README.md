@@ -37,7 +37,7 @@ This repository includes examples of PCI-compliant UI integrations for online pa
  
 ## Usage
 
-1. Update the config file `config.ini` with your [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key), [Client Key](https://docs.adyen.com/user-management/client-side-authentication), and merchant account name like below:
+1. Update the config file `config.ini` with your [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key), [Client Key](https://docs.adyen.com/user-management/client-side-authentication) - Remember to add `http://localhost:8080` as an origin for client key, and merchant account name like below:
     ```
     merchant_account = TestMerchantAccount
     checkout_apikey = SampleAPIKey

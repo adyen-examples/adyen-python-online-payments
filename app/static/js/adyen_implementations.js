@@ -95,6 +95,21 @@ const createAdyenCheckout = () => {
         // Need to run JSON.parse() 2x because Jinja2 |tojson filter stringifies /paymentMethod response again. However,
         // not including this filter results in an HTML encoded string
         const paymentMethods = JSON.parse(JSON.parse(document.getElementById('payment-methods').innerHTML));
+        paymentMethods.paymentMethods = paymentMethods.paymentMethods.filter((it) =>
+            [
+                "scheme",
+                "ideal",
+                "klarna",
+                "directEbanking",
+                "alipay",
+                "boletobancario",
+                "sepadirectdebit",
+                "dotpay",
+                "giropay",
+                "ach",
+                "paypal",
+            ].includes(it.type)
+        );
         const clientKey = JSON.parse(document.getElementById('client-key').innerHTML);
 
         // Placeholder values
