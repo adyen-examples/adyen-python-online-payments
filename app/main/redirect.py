@@ -1,6 +1,7 @@
 import app.main.config as config
-import requests
-from json import loads
+import Adyen
+import json
+from .payment_methods import format_for_json
 
 '''
 For redirect payment methods, handle redirect back to website
@@ -13,12 +14,18 @@ Return response as dictionary to make success/failure redirect in init.py easier
 
 
 def handle_shopper_redirect(values):
-    url = config.checkout_detail_url
-
-    headers = {"X-Api-Key": config.checkout_apikey, "Content-type": "application/json"}
-
-    print("/payments/details request:\n" + str(values))
-    r = requests.post(url=url, headers=headers, json=values)
-    print("/payments/details response:\n" + r.text)
-    return loads(r.text)
+    adyen = Adyen.Adyen()
+    adyen.payment.client.platform = "test"
+    adyen.client.xapikey = config.checkout_apikey
+    
+    details_request = values
+    
+    print("/payments/details request:\n" + str(details_request))
+    
+    details_response = adyen.checkout.payments_details(details_request)
+    formatted_response = format_for_json(details_response)
+    
+    print("payments/details response:\n" + formatted_response)
+    return json.loads(formatted_response)
+    
 

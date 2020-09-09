@@ -4,7 +4,7 @@ const structureRequest = (data) => {
     const paymentRequest = {
         paymentMethod: data.paymentMethod
     };
-
+    console.log("Structuring request ", data);
     if (data.paymentMethod.type === "scheme") {
         paymentRequest['billingAddress'] = data.billingAddress;
         paymentRequest['browserInfo'] = data.browserInfo;
@@ -91,11 +91,9 @@ const onError = (error) => {
 
 // Create Adyen checkout instance and initilize component
 const createAdyenCheckout = () => {
-        // Get /paymentMethods call and originKey response Jinja2 passed back to <script> tag
-        // Need to run JSON.parse() 2x because Jinja2 |tojson filter stringifies /paymentMethod response again. However,
-        // not including this filter results in an HTML encoded string
-        const paymentMethods = JSON.parse(JSON.parse(document.getElementById('payment-methods').innerHTML));
-        const originKey = JSON.parse(document.getElementById('origin-key').innerHTML);
+        // Get /paymentMethods call and clientKey response Jinja2 passed back to <script> tag
+        const paymentMethods = JSON.parse(document.getElementById('payment-methods').innerHTML);
+        const clientKey = JSON.parse(document.getElementById('client-key').innerHTML);
 
         // Placeholder values
         const translations = {
@@ -138,7 +136,7 @@ const createAdyenCheckout = () => {
                 },
                 environment: "test", // Change this to "live" when you're ready to accept live PayPal payments
                 countryCode: "US", // Only needed for test. This will be automatically retrieved when you are in production.
-                intent: "capture", // Change this to "authorize" if the payments should not be captured immediately. Contact Support to enable this flow.
+                intent: "authorize", // Change this to "authorize" if the payments should not be captured immediately. Contact Support to enable this flow.
             }
         };
 
@@ -147,7 +145,7 @@ const createAdyenCheckout = () => {
             showPayButton: true,
             locale: "en_US",
             environment: "test",
-            originKey: originKey,
+            clientKey: clientKey,
             paymentMethodsResponse: paymentMethods,
             translations: translations,
             onSubmit: onSubmit,
@@ -162,7 +160,9 @@ const integrationType = JSON.parse(document.getElementById('integration-type').i
 // Adjust style for Dropin
 if (integrationType === 'dropin') {
     document.getElementById('component').style.padding = '0em';
-    document.getElementsByClassName('checkout-component')[0].style.border = 'none';
+    let container = document.getElementsByClassName('checkout-component')[0];
+    container.style.border = 'none';
+    container.style.padding = '0';
 } else if (integrationType === 'paypal') {
     let el = document.querySelector('.payment');
     el.style.display = 'flex';

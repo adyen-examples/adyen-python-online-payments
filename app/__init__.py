@@ -12,10 +12,7 @@ import app.main.config as config
 
 # Fusion Application Factory
 def create_app():
-    app = Flask('Adyen')
-
-    # Update root_path to specific module. If using multiple modules, can define relative to instance path
-    app.root_path = app.root_path + '/app'
+    app = Flask('app')
 
     # Register 404 handler
     app.register_error_handler(404, page_not_found)
@@ -35,11 +32,11 @@ def create_app():
     @app.route('/checkout/<integration>')
     def checkout(integration):
         payment_methods_response = adyen_payment_methods()
-        origin_key = config.origin_key
+        client_key = config.client_key
 
         if integration in config.supported_integrations:
             return render_template('component.html', method=integration, payment_methods=payment_methods_response,
-                                   origin_key=origin_key)
+                                   client_key=client_key)
         else:
             abort(404)
 
