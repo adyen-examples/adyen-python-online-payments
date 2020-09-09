@@ -93,6 +93,22 @@ const onError = (error) => {
 const createAdyenCheckout = () => {
     // Get /paymentMethods call and clientKey response Jinja2 passed back to <script> tag
     const paymentMethods = JSON.parse(document.getElementById('payment-methods').innerHTML);
+    // TODO: Move payment method restriction to backend
+    paymentMethods.paymentMethods = paymentMethods.paymentMethods.filter((it) =>
+        [
+            "scheme",
+            "ideal",
+            "klarna",
+            "directEbanking",
+            "alipay",
+            "boletobancario",
+            "sepadirectdebit",
+            "dotpay",
+            "giropay",
+            "ach",
+            "paypal",
+        ].includes(it.type)
+    );
     const clientKey = JSON.parse(document.getElementById('client-key').innerHTML);
 
     // Docs for custom styling of dropin - https://docs.adyen.com/checkout/drop-in-web/customization

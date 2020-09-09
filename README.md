@@ -39,11 +39,11 @@ Please make sure to [add the above payment methods to your Adyen account](https:
  
 ## Usage
 
-1. Update the config file `config.ini` with your [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key), [Client Key](https://docs.adyen.com/development-resources/client-side-authentication/migrate-from-origin-key-to-client-key), and merchant account name like below:
+1. Update the config file `config.ini` with your [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key), [Client Key](https://docs.adyen.com/user-management/client-side-authentication) - Remember to add `http://localhost:8080` as an origin for client key, and merchant account name like below:
     ```
     merchant_account = TestMerchantAccount
     checkout_apikey = SampleAPIKey
-    client_key = SampleclientKey
+    client_key = SampleClientKey
     ```
 2. Make sure your (venv) is activated by running `source ./venv/bin/activate` from your projects root.
 3. Run `./start.sh` to:
