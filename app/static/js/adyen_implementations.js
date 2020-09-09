@@ -4,7 +4,7 @@ const structureRequest = (data) => {
     const paymentRequest = {
         paymentMethod: data.paymentMethod
     };
-    console.log("Structuring request ", data);
+
     if (data.paymentMethod.type === "scheme") {
         paymentRequest['billingAddress'] = data.billingAddress;
         paymentRequest['browserInfo'] = data.browserInfo;
@@ -62,7 +62,7 @@ const onSubmit = (state, component) => {
 };
 
 const onAdditionalDetails = (state, component) => {
-    console.log("On additionalDetails triggered");
+    console.log("OnAdditionalDetails triggered");
     fetch(`/api/submitAdditionalDetails`, {
         method: 'POST',
         headers: {
@@ -91,73 +91,49 @@ const onError = (error) => {
 
 // Create Adyen checkout instance and initilize component
 const createAdyenCheckout = () => {
-        // Get /paymentMethods call and clientKey response Jinja2 passed back to <script> tag
-        const paymentMethods = JSON.parse(document.getElementById('payment-methods').innerHTML);
-        const clientKey = JSON.parse(document.getElementById('client-key').innerHTML);
+    // Get /paymentMethods call and clientKey response Jinja2 passed back to <script> tag
+    const paymentMethods = JSON.parse(document.getElementById('payment-methods').innerHTML);
+    const clientKey = JSON.parse(document.getElementById('client-key').innerHTML);
 
-        // Placeholder values
-        const translations = {
-            // "en-US": {
-            //     "creditCard.numberField.title": "Custom Card Name",
-            // }
-        };
-
-        const paymentMethodsConfiguration = {
-            card: { // Example optional configuration for Cards
-                // hideCVC: false, // Change this to true to hide the CVC field for stored cards. false is default
-                // placeholders: { # Change placeholder text for the following fields
-                // encryptedCardNumber: "",
-                // encryptedSecurityCode: ""
-                // },
-                // billingAddressRequired: true,
-                hasHolderName: true,
-                holderNameRequired: true,
-                enableStoreDetails: true,
-                name: 'Credit or debit card'
+    // Docs for custom styling of dropin - https://docs.adyen.com/checkout/drop-in-web/customization
+    // Docs for configuration changes to components (configurations are payment method specific) E.g. Cards - https://docs.adyen.com/payment-methods/cards/web-component#show-the-available-cards-in-your-payment-form
+    const paymentMethodsConfiguration = {
+        card: {
+            hasHolderName: true,
+            holderNameRequired: true,
+            enableStoreDetails: true,
+        },
+        ach: {
+            holderName: 'Ach User',
+            billingAddressRequired: false
+        },
+        paypal: {
+            amount: {
+                currency: "USD",
+                value: 1000
             },
-            ach: { // Default ACH user information
-                holderName: 'Ach User',
-                billingAddressRequired: false
-                // data: {
-                //     billingAddress: {
-                //         street: 'Infinite Loop',
-                //         postalCode: '95014',
-                //         city: 'Cupertino',
-                //         houseNumberOrName: '1',
-                //         country: 'US',
-                //         stateOrProvince: 'CA'
-                //     }
-                // }
-            },
-            paypal: {
-                amount: {
-                    currency: "USD",
-                    value: 1000
-                },
-                environment: "test", // Change this to "live" when you're ready to accept live PayPal payments
-                countryCode: "US", // Only needed for test. This will be automatically retrieved when you are in production.
-                intent: "authorize", // Change this to "authorize" if the payments should not be captured immediately. Contact Support to enable this flow.
-            }
-        };
+            environment: "test", // Change this to "live" when you're ready to accept live PayPal payments
+            countryCode: "US", // Only needed for test. This will be automatically retrieved when you are in production.
+            intent: "authorize", // Change this to "authorize" if the payments should not be captured immediately. Contact Support to enable this flow.
+        }
+    };
 
-        const configObj = {
-            paymentMethodsConfiguration: paymentMethodsConfiguration,
-            showPayButton: true,
-            locale: "en_US",
-            environment: "test",
-            clientKey: clientKey,
-            paymentMethodsResponse: paymentMethods,
-            translations: translations,
-            onSubmit: onSubmit,
-            onAdditionalDetails: onAdditionalDetails,
-            onError: onError
-        };
-        return new AdyenCheckout(configObj);
-    }
-;
+    const configObj = {
+        paymentMethodsConfiguration: paymentMethodsConfiguration,
+        showPayButton: true,
+        locale: "en_US",
+        environment: "test",
+        clientKey: clientKey,
+        paymentMethodsResponse: paymentMethods,
+        onSubmit: onSubmit,
+        onAdditionalDetails: onAdditionalDetails,
+        onError: onError
+    };
+    return new AdyenCheckout(configObj);
+};
 const integrationType = JSON.parse(document.getElementById('integration-type').innerHTML);
 
-// Adjust style for Dropin
+// Adjust style for Specific Components
 if (integrationType === 'dropin') {
     document.getElementById('component').style.padding = '0em';
     let container = document.getElementsByClassName('checkout-component')[0];
