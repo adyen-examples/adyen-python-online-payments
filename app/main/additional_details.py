@@ -1,5 +1,6 @@
 import app.main.config as config
-import requests
+import Adyen
+from .payment_methods import format_for_json
 
 '''
 perform a call to /payments/details
@@ -15,14 +16,16 @@ Passing in the component state.data object as frontend_request, This looks like 
 
 
 def get_payment_details(frontend_request):
-    url = config.checkout_detail_url
+    adyen = Adyen.Adyen()
+    adyen.payment.client.platform = "test"
+    adyen.client.xapikey = config.checkout_apikey
+    
+    details_request = frontend_request.get_json()
+    
+    print("/payments/details request:\n" + str(details_request))
+    
+    details_response = adyen.checkout.payments_details(details_request)
+    formatted_response = format_for_json(details_response)
 
-    headers = {"X-Api-Key": config.checkout_apikey, "Content-type": "application/json"}
-
-    details = frontend_request.get_json()
-
-    print("/payments/details request:\n" + str(details))
-    r = requests.post(url=url, headers=headers, json=details)
-    response = r.text
-    print("payments/details response:\n" + response)
-    return response
+    print("payments/details response:\n" + formatted_response)
+    return formatted_response

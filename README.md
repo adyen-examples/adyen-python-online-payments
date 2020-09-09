@@ -17,15 +17,17 @@ This repository includes examples of PCI-compliant UI integrations for online pa
   * iDEAL
   * Klarna
   * PayPal
+  * SEPA Direct Debit
   * Sofort
   
+Please make sure to [add the above payment methods to your Adyen account](https://docs.adyen.com/payment-methods#add-payment-methods-to-your-account) before testing!
 
 ## Requirements
 
 * Python 3.5 or greater
 * Python libraries:
     * flask
-    * requests
+    * Adyen
 
 ## Installation
 

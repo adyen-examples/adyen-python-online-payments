@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
 
 requires = [
     'flask',
-    'requests'
+    'Adyen'
 ]
 
 setup(

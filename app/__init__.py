@@ -12,10 +12,7 @@ import app.main.config as config
 
 # Fusion Application Factory
 def create_app():
-    app = Flask('Adyen')
-
-    # Update root_path to specific module. If using multiple modules, can define relative to instance path
-    app.root_path = app.root_path + '/app'
+    app = Flask('app')
 
     # Register 404 handler
     app.register_error_handler(404, page_not_found)
