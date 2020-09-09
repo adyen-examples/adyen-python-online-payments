@@ -5,4 +5,4 @@ if test -f "$FILE"; then
 fi
 python3 -m venv venv
 . venv/bin/activate
-python setup.py install
+python3 setup.py install
