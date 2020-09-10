@@ -1,7 +1,6 @@
 import app.main.config as config
 import Adyen
 from random import randint
-from functools import reduce
 from flask import json
 
 '''
@@ -111,7 +110,7 @@ def adyen_payments(frontend_request):
 	
 	payments_response = adyen.checkout.payments(payments_request)
 	
-	print("/payments response:\n" + payments_response.raw_response)
+	print("/payments response:\n" + payments_response.raw_response.decode("UTF-8"))
 	return remove_unnecessary_data(payments_response.raw_response)
 
 

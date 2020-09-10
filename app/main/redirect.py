@@ -23,7 +23,7 @@ def handle_shopper_redirect(values):
     
     details_response = adyen.checkout.payments_details(details_request)
     
-    print("payments/details response:\n" + details_response.raw_response)
+    print("payments/details response:\n" + details_response.raw_response.decode("UTF-8"))
     return json.loads(details_response.raw_response)
     
 
