@@ -1,7 +1,6 @@
 import app.main.config as config
 import Adyen
 import json
-from .payment_methods import format_for_json
 
 '''
 For redirect payment methods, handle redirect back to website
@@ -23,9 +22,8 @@ def handle_shopper_redirect(values):
     print("/payments/details request:\n" + str(details_request))
     
     details_response = adyen.checkout.payments_details(details_request)
-    formatted_response = format_for_json(details_response)
     
-    print("payments/details response:\n" + formatted_response)
-    return json.loads(formatted_response)
+    print("payments/details response:\n" + details_response.raw_response)
+    return json.loads(details_response.raw_response)
     
 

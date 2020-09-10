@@ -1,8 +1,8 @@
 import app.main.config as config
 import Adyen
 from random import randint
+from functools import reduce
 from flask import json
-from .payment_methods import format_for_json
 
 '''
 perform a call to /payments
@@ -110,10 +110,9 @@ def adyen_payments(frontend_request):
 	print("/payments request:\n" + str(payments_request))
 	
 	payments_response = adyen.checkout.payments(payments_request)
-	formatted_response = format_for_json(payments_response)
 	
-	print("/payments response:\n" + formatted_response)
-	return remove_unnecessary_data(formatted_response)
+	print("/payments response:\n" + payments_response.raw_response)
+	return remove_unnecessary_data(payments_response.raw_response)
 
 
 def choose_currency(payment_method):

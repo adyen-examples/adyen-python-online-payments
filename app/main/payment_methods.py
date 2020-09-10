@@ -1,7 +1,6 @@
 import app.main.config as config
 import Adyen
-from functools import reduce
-
+import json
 
 '''
 Retrieve available payment methods by calling /paymentMethods
@@ -27,15 +26,14 @@ def adyen_payment_methods():
     print("/paymentMethods request:\n" + str(payment_methods_request))
 
     payment_methods_response = adyen.checkout.payment_methods(payment_methods_request)
-    formatted_response = format_for_json(payment_methods_response)
+    formatted_response = filter_unsupported_methods(payment_methods_response)
     
     print("/paymentMethods response:\n" + formatted_response)
     return formatted_response
 
 
-# Raw AdyenResult object isn't proper JSON. This function formats the response to proper JSON
-def format_for_json(response):
-    replace_dict = ("'", "\""), ("True", "true"), ("False", "false")
-    return reduce(lambda a, kv: a.replace(*kv), replace_dict, str(response))
-
-
+def filter_unsupported_methods(adyen_result):
+    pm_dict = json.loads(adyen_result.raw_response)
+    pm_dict["paymentMethods"] = [value for value in pm_dict["paymentMethods"] if value["type"] in config.supported_integrations or value["type"] == "scheme"]
+    new_string = json.dumps(pm_dict)
+    return new_string
