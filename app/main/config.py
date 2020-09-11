@@ -16,7 +16,7 @@ supported_integrations = ['dropin', 'card', 'ideal', 'klarna', 'directEbanking',
 def read_config():
     global merchant_account, checkout_apikey, client_key
 
-    config = configparser.ConfigParser()
+    config = configparser.ConfigParser(interpolation=None)
     config.read('config.ini')
 
     merchant_account = config['DEFAULT']['merchant_account']
