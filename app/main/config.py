@@ -9,8 +9,8 @@ Make sure to fill out your config.ini file!!!
 merchant_account = ""
 checkout_apikey = ""
 client_key = ""
-supported_integrations = ['dropin', 'card', 'ideal', 'klarna', 'directEbanking', 'alipay',
-                                  'boletobancario', 'sepadirectdebit', 'dotpay', 'giropay', 'ach', 'paypal']
+supported_integrations = ['dropin', 'card', 'ideal', 'klarna', 'directEbanking', 'alipay', 'boletobancario',
+                          'sepadirectdebit', 'dotpay', 'giropay', 'ach', 'paypal']
 
 
 def read_config():
