@@ -71,19 +71,19 @@ def create_app():
         else:
             return render_template('fetch-payment-data.html', values=values)
 
-    @app.route('/success', methods=['GET'])
+    @app.route('/result/success', methods=['GET'])
     def checkout_success():
         return render_template('checkout-success.html')
 
-    @app.route('/failed', methods=['GET'])
+    @app.route('/result/failed', methods=['GET'])
     def checkout_failure():
         return render_template('checkout-failed.html')
 
-    @app.route('/pending', methods=['GET'])
+    @app.route('/result/pending', methods=['GET'])
     def checkout_pending():
         return render_template('checkout-success.html')
 
-    @app.route('/error', methods=['GET'])
+    @app.route('/result/error', methods=['GET'])
     def checkout_error():
         return render_template('checkout-failed.html')
 
