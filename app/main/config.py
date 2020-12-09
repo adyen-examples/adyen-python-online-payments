@@ -20,7 +20,7 @@ def read_config():
     config.read('config.ini')
 
     merchant_account = config['DEFAULT']['merchant_account']
-    checkout_apikey = config['DEFAULT']['checkout_apikey']
+    checkout_apikey = config['DEFAULT']['apikey']
     client_key = config['DEFAULT']['client_key']
 
     # Check to make sure variables are set
