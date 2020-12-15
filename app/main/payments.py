@@ -1,6 +1,6 @@
 import app.main.config as config
 import Adyen
-from random import randint
+import uuid
 from flask import json
 
 '''
@@ -57,7 +57,7 @@ def adyen_payments(frontend_request):
 			'currency': choose_currency(txvariant)
 		},
 		'channel': 'Web',
-		'reference': "Python Integration Test Reference" + str(randint(0, 10000)),
+		'reference': str(uuid.uuid4()),
 		'shopperReference': "Python Checkout Shopper",
 		'returnUrl': "http://localhost:8080/api/handleShopperRedirect",
 		'countryCode': 'NL',
