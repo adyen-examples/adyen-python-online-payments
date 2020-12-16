@@ -9,6 +9,8 @@ from .main.redirect import handle_shopper_redirect
 from .main.additional_details import get_payment_details
 import app.main.config as config
 
+payment_data_store = {}
+
 
 # Fusion Application Factory
 def create_app():
@@ -57,19 +59,27 @@ def create_app():
 
     @app.route('/api/handleShopperRedirect', methods=['POST', 'GET'])
     def handle_redirect():
-        values = request.json if request.is_json else request.values.to_dict()  # Get values from request object
+        values = request.values.to_dict()  # Get values from query params in request object
+        payment_data = payment_data_store[values["orderRef"]]
+        details_request = {"paymentData": payment_data}
 
-        # Fetch paymentData from the frontend if we have not already
-        if 'paymentData' in values:
-            redirect_response = handle_shopper_redirect(values)
-            if redirect_response["resultCode"] == 'Authorised':
-                return redirect(url_for('checkout_success'))
-            elif redirect_response["resultCode"] == 'Received' or redirect_response["resultCode"] == 'Pending':
-                return redirect(url_for('checkout_pending'))
-            else:
-                return redirect(url_for('checkout_failure'))
+        if "payload" in values:
+            details_request["details"] = {"payload": values["payload"]}
+        elif "redirectResult" in values:
+            details_request["details"] = {"redirectResult": values["redirectResult"]}
         else:
-            return render_template('fetch-payment-data.html', values=values)
+            del values["orderRef"]
+            details_request["details"] = values
+
+        redirect_response = handle_shopper_redirect(details_request)
+
+        # Redirect shopper to landing page depending on payment success/failure
+        if redirect_response["resultCode"] == 'Authorised':
+            return redirect(url_for('checkout_success'))
+        elif redirect_response["resultCode"] == 'Received' or redirect_response["resultCode"] == 'Pending':
+            return redirect(url_for('checkout_pending'))
+        else:
+            return redirect(url_for('checkout_failure'))
 
     @app.route('/result/success', methods=['GET'])
     def checkout_success():

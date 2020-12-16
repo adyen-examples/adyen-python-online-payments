@@ -1,7 +1,6 @@
 import app.main.config as config
 import Adyen
 import uuid
-from flask import json
 
 '''
 perform a call to /payments
@@ -50,6 +49,7 @@ def adyen_payments(frontend_request):
 	
 	payment_info = frontend_request.get_json()
 	txvariant = payment_info["paymentMethod"]["type"]
+	order_ref = str(uuid.uuid4())
 	
 	payments_request = {
 		'amount': {
@@ -57,9 +57,9 @@ def adyen_payments(frontend_request):
 			'currency': choose_currency(txvariant)
 		},
 		'channel': 'Web',
-		'reference': str(uuid.uuid4()),
+		'reference': order_ref,
 		'shopperReference': "Python Checkout Shopper",
-		'returnUrl': "http://localhost:8080/api/handleShopperRedirect",
+		'returnUrl': "http://localhost:8080/api/handleShopperRedirect?orderRef=" + order_ref,
 		'countryCode': 'NL',
 		'shopperLocale': "en_US",
 		'storePaymentMethod': 'true',
@@ -109,9 +109,13 @@ def adyen_payments(frontend_request):
 	print("/payments request:\n" + str(payments_request))
 	
 	payments_response = adyen.checkout.payments(payments_request)
+
+	if "paymentData" in payments_response.message:
+		from app import payment_data_store
+		payment_data_store[order_ref] = payments_response.message["paymentData"]
 	
 	print("/payments response:\n" + payments_response.raw_response.decode("UTF-8"))
-	return remove_unnecessary_data(payments_response.raw_response)
+	return payments_response.raw_response
 
 
 def choose_currency(payment_method):
@@ -125,24 +129,3 @@ def choose_currency(payment_method):
 		return "USD"
 	else:
 		return "EUR"
-
-
-# Custom payment error class
-class PaymentError(Exception):
-	def __init__(self, value):
-		self.value = value
-	
-	def __str__(self):
-		return repr(self.value)
-	
-
-# Format response being passed back to frontend. Only leave resultCode and action
-def remove_unnecessary_data(response):
-	dict_response = json.loads(response)
-	if "resultCode" in dict_response:
-		new_response = {"resultCode": dict_response["resultCode"]}
-		if "action" in dict_response:
-			new_response["action"] = dict_response["action"]
-		return json.dumps(new_response)
-	else:
-		raise PaymentError(response)
