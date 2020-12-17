@@ -10,7 +10,7 @@ merchant_account = ""
 checkout_apikey = ""
 client_key = ""
 supported_integrations = ['dropin', 'card', 'ideal', 'klarna', 'directEbanking', 'alipay', 'boletobancario',
-                          'sepadirectdebit', 'dotpay', 'giropay', 'ach', 'paypal']
+                          'sepadirectdebit', 'dotpay', 'giropay', 'ach', 'paypal', 'applepay']
 
 
 def read_config():
