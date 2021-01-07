@@ -3,7 +3,7 @@ const type = JSON.parse(document.getElementById('integration-type').innerHTML);
 
 async function initCheckout() {
 	try {
-		const paymentMethodsResponse = JSON.parse(document.getElementById('payment-methods').innerHTML); //TODO: Replace with fetch call
+		const paymentMethodsResponse = await callServer("/api/getPaymentMethods", {});
 		const configuration = {
 			paymentMethodsResponse: filterUnimplemented(paymentMethodsResponse),
 			clientKey,
@@ -31,15 +31,6 @@ async function initCheckout() {
 					environment: "test", // Change this to "live" when you're ready to accept live PayPal payments
 					countryCode: "US", // Only needed for test. This will be automatically retrieved when you are in production.
 					intent: "authorize" // Change this to "authorize" if the payments should not be captured immediately. Contact Support to enable this flow.
-				},
-				applepay: {
-					currencyCode: 500,
-					amount: "5",
-					countryCode: "DE",
-					configuration: {
-						merchantName: "Adyen Test merchant", // Required for Component versions earlier than 3.17.1. Name to be displayed on the form.
-						merchantIdentifier: "adyen.test.merchant" // Required for Component versions earlier than 3.17.1. Your Apple merchant identifier as described in https://developer.apple.com/documentation/apple_pay_on_the_web/applepayrequest/2951611-merchantidentifier
-					}
 				}
 			},
 			onSubmit: (state, component) => {
@@ -77,8 +68,7 @@ function filterUnimplemented(pm) {
 			"klarna",
 			"klarna_account",
 			"paypal",
-			"boletobancario_santander",
-			"applepay"
+			"boletobancario_santander"
 		].includes(it.type)
 	);
 	return pm;
@@ -130,19 +120,6 @@ function handleServerResponse(res, component) {
 				break;
 		}
 	}
-}
-
-// TODO: Move styling to .css file
-// Adjust style for Specific Components
-if (type === 'dropin') {
-	document.getElementById('component').style.padding = '0em';
-	let container = document.getElementsByClassName('checkout-component')[0];
-	container.style.border = 'none';
-	container.style.padding = '0';
-} else if (type === 'paypal') {
-	let el = document.querySelector('.payment');
-	el.style.display = 'flex';
-	el.style.justifyContent = 'center';
 }
 
 initCheckout();

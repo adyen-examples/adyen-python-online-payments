@@ -10,7 +10,7 @@
 
 	<div id="payment-page">
 		<div class="container">
-			<div class="checkout-component payment-container" style="width: 100%; max-width: 100%;">
+			<div class="checkout-component-container">
 
 				<div id="component" class="payment">
 					<!-- Component will be rendered here -->
@@ -25,7 +25,6 @@
 			integrity="sha384-CJ8FSR4EmldZPoNUHfpHrZ7CSOsP2lxp8xzSNIE92icrx46CmCoSxucO4IRE8h7V"
 			crossorigin="anonymous"></script>
 
-	<script id="payment-methods" type="application/json">{{ payment_methods|safe }}</script>
 	<script id="client-key" type="application/json">{{ client_key|tojson }}</script>
 	<script id="integration-type" type="application/json">{{ method|tojson }}</script>
 
