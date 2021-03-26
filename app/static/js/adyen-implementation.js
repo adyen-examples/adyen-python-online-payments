@@ -68,6 +68,7 @@ function filterUnimplemented(pm) {
 			"klarna",
 			"klarna_account",
 			"paypal",
+			"directdebit_GB",
 			"boletobancario_santander"
 		].includes(it.type)
 	);

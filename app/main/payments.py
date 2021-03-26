@@ -58,7 +58,7 @@ def adyen_payments(frontend_request):
 		},
 		'channel': 'Web',
 		'reference': order_ref,
-		'shopperReference': "Python Checkout Shopper",
+		'shopperReference': "PythonCheckoutShopper",
 		'returnUrl': "http://localhost:8080/api/handleShopperRedirect?orderRef=" + order_ref,
 		'countryCode': 'NL',
 		'shopperLocale': "en_US",
@@ -102,7 +102,10 @@ def adyen_payments(frontend_request):
 	elif txvariant == 'scheme':
 		payments_request['additionalData'] = {"allow3DS2": "true"}
 		payments_request['origin'] = "http://localhost:8080"
-	
+
+	elif txvariant == 'directdebit_GB':
+		payments_request['countryCode'] = 'GB'
+
 	elif txvariant == 'ach' or txvariant == 'paypal':
 		payments_request['countryCode'] = 'US'
 	
@@ -125,6 +128,8 @@ def choose_currency(payment_method):
 		return "PLN"
 	elif payment_method == "boletobancario":
 		return "BRL"
+	elif payment_method == 'directdebit_GB':
+		return "GBP"
 	elif payment_method == "ach" or payment_method == "paypal":
 		return "USD"
 	else:
