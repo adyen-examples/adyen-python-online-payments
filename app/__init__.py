@@ -9,9 +9,6 @@ from .main.redirect import handle_shopper_redirect
 from .main.additional_details import get_payment_details
 import app.main.config as config
 
-payment_data_store = {}
-
-
 # Fusion Application Factory
 def create_app():
     app = Flask('app')
@@ -58,16 +55,12 @@ def create_app():
     @app.route('/api/handleShopperRedirect', methods=['POST', 'GET'])
     def handle_redirect():
         values = request.values.to_dict()  # Get values from query params in request object
-        payment_data = payment_data_store[values["orderRef"]]
-        details_request = {"paymentData": payment_data}
+        details_request = {}
 
         if "payload" in values:
             details_request["details"] = {"payload": values["payload"]}
         elif "redirectResult" in values:
             details_request["details"] = {"redirectResult": values["redirectResult"]}
-        else:
-            del values["orderRef"]
-            details_request["details"] = values
 
         redirect_response = handle_shopper_redirect(details_request)
 

@@ -1,2 +1,2 @@
 flask
-Adyen >= 4.0.0
+Adyen >= 5.1.0

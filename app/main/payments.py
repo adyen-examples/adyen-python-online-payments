@@ -109,12 +109,8 @@ def adyen_payments(frontend_request):
 	print("/payments request:\n" + str(payments_request))
 	
 	payments_response = adyen.checkout.payments(payments_request)
-
-	if "paymentData" in payments_response.message:
-		from app import payment_data_store
-		payment_data_store[order_ref] = payments_response.message["paymentData"]
 	
-	print("/payments response:\n" + payments_response.raw_response.decode("UTF-8"))
+	print("/payments response:\n" + payments_response.raw_response)
 	return payments_response.raw_response
 
 

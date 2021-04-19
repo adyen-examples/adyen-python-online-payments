@@ -25,5 +25,5 @@ def get_payment_details(frontend_request):
     
     details_response = adyen.checkout.payments_details(details_request)
 
-    print("payments/details response:\n" + details_response.raw_response.decode("UTF-8"))
+    print("payments/details response:\n" + details_response.raw_response)
     return details_response.raw_response

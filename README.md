@@ -8,50 +8,50 @@ This repository includes examples of PCI-compliant UI integrations for online pa
 
 **Python with Flask** demos of the following client-side integrations are available in this repository:
 
-* [Drop-in](https://docs.adyen.com/checkout/drop-in-web)
-* [Component](https://docs.adyen.com/checkout/components-web)
-  * ACH
-  * Alipay
-  * Boleto
-  * Card
-  * Dotpay
-  * Giropay
-  * iDEAL
-  * Klarna
-  * PayPal
-  * SEPA Direct Debit
-  * Sofort
+- [Drop-in](https://docs.adyen.com/checkout/drop-in-web)
+- [Component](https://docs.adyen.com/checkout/components-web)
+  - ACH
+  - Alipay
+  - Boleto
+  - Card
+  - Dotpay
+  - Giropay
+  - iDEAL
+  - Klarna
+  - PayPal
+  - SEPA Direct Debit
+  - Sofort
 
 Please make sure to [add the above payment methods to your Adyen account](https://docs.adyen.com/payment-methods#add-payment-methods-to-your-account) before testing!
 
 ## Requirements
 
-* Python 3.5 or greater
-* Python libraries:
-    * flask
-    * Adyen
+- Python 3.5 or greater
+- Python libraries:
+  - flask
+  - Adyen
 
 ## Installation
 
 1. Clone this repo
 2. Navigate to root level of repo
 3. Run `source ./setup.sh` to:
-    * Create and activate a virtual environment
-    * Download the necessary python dependencies
+   - Create and activate a virtual environment
+   - Download the necessary python dependencies
 
 ## Usage
 
-1. Update the config file `config.ini` with your [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key), [Client Key](https://docs.adyen.com/user-management/client-side-authentication) - Remember to add `http://localhost:8080` as an origin for client key, and merchant account name like below:
-    ```
-    merchant_account = TestMerchantAccount
-    checkout_apikey = SampleAPIKey
-    client_key = SampleClientKey
-    ```
-2. Make sure your (venv) is activated by running `source ./venv/bin/activate` from your projects root.
+1. Run `./setup.sh` to install dependencies and to activate your (venv)
+2. Update the config file `config.ini` with your [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key), [Client Key](https://docs.adyen.com/user-management/client-side-authentication) - Remember to add `http://localhost:8080` as an origin for client key, and merchant account name like below:
+   ```
+   merchant_account = TestMerchantAccount
+   checkout_apikey = SampleAPIKey
+   client_key = SampleClientKey
+   ```
 3. Run `./start.sh` to:
-    * Initialize the required environment variables. This step is necessary every time you re-activate your (venv)
-    * Run flask
-3. Visit [http://localhost:8080](http://localhost:8080) and select an integration type!
+   - Initialize the required environment variables. This step is necessary every time you re-activate your (venv)
+   - Run flask
+4. Visit [http://localhost:8080](http://localhost:8080) and select an integration type!
 
 ## Contributing
 
