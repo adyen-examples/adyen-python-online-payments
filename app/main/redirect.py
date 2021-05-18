@@ -16,14 +16,13 @@ def handle_shopper_redirect(values):
     adyen = Adyen.Adyen()
     adyen.payment.client.platform = "test"
     adyen.client.xapikey = config.checkout_apikey
-    
-    details_request = values
-    
-    print("/payments/details request:\n" + str(details_request))
-    
-    details_response = adyen.checkout.payments_details(details_request)
-    
-    print("payments/details response:\n" + details_response.raw_response)
-    return json.loads(details_response.raw_response)
-    
 
+    details_request = values
+
+    print("/payments/details request:\n" + str(details_request))
+
+    details_response = adyen.checkout.payments_details(details_request)
+    formatted_response = json.loads(details_response.raw_response)
+
+    print("payments/details response:\n" + str(formatted_response))
+    return formatted_response
