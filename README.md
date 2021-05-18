@@ -41,7 +41,7 @@ Please make sure to [add the above payment methods to your Adyen account](https:
 
 ## Usage
 
-1. Run `./setup.sh` to install dependencies and to activate your (venv)
+1. Run `./setup.sh` to install dependencies and to activate your `venv` if you haven't done already in above steps
 2. Update the config file `config.ini` with your [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key), [Client Key](https://docs.adyen.com/user-management/client-side-authentication) - Remember to add `http://localhost:8080` as an origin for client key, and merchant account name like below:
    ```
    merchant_account = TestMerchantAccount

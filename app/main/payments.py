@@ -1,6 +1,7 @@
 import app.main.config as config
 import Adyen
 import uuid
+import json
 
 '''
 perform a call to /payments
@@ -34,7 +35,7 @@ Taking in the following object from our frontend_request. billingAddress and bro
 			timeZoneOffset: 480
 		}
 	};
-	
+
 Will use this as the base of our payment request and add the necessary components from our backend. Feel free to modify
 these values in the frontend adyen_implementations.js file or to override them here
 
@@ -46,11 +47,11 @@ def adyen_payments(frontend_request):
 	adyen = Adyen.Adyen()
 	adyen.client.platform = 'test'
 	adyen.client.xapikey = config.checkout_apikey
-	
+
 	payment_info = frontend_request.get_json()
 	txvariant = payment_info["paymentMethod"]["type"]
 	order_ref = str(uuid.uuid4())
-	
+
 	payments_request = {
 		'amount': {
 			'value': 1000,
@@ -66,10 +67,10 @@ def adyen_payments(frontend_request):
 		'merchantAccount': config.merchant_account
 	}
 	payments_request.update(payment_info)
-	
+
 	if txvariant == 'alipay':
 		payments_request['countryCode'] = 'CN'
-	
+
 	elif 'klarna' in txvariant:
 		payments_request['shopperEmail'] = "myEmail@adyen.com"
 		payments_request['lineItems'] = [
@@ -95,23 +96,24 @@ def adyen_payments(frontend_request):
 			}]
 	elif txvariant == 'directEbanking' or txvariant == 'giropay':
 		payments_request['countryCode'] = "DE"
-	
+
 	elif txvariant == 'dotpay':
 		payments_request['countryCode'] = "PL"
-	
+
 	elif txvariant == 'scheme':
 		payments_request['additionalData'] = {"allow3DS2": "true"}
 		payments_request['origin'] = "http://localhost:8080"
-	
+
 	elif txvariant == 'ach' or txvariant == 'paypal':
 		payments_request['countryCode'] = 'US'
-	
+
 	print("/payments request:\n" + str(payments_request))
-	
+
 	payments_response = adyen.checkout.payments(payments_request)
-	
-	print("/payments response:\n" + payments_response.raw_response)
-	return payments_response.raw_response
+	formatted_response = json.dumps((json.loads(payments_response.raw_response)))
+
+	print("/payments response:\n" + formatted_response)
+	return formatted_response
 
 
 def choose_currency(payment_method):

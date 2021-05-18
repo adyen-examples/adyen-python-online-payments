@@ -39,18 +39,15 @@ def create_app():
 
     @app.route('/api/getPaymentMethods', methods=['GET', 'POST'])
     def get_payment_methods():
-        payment_methods_response = adyen_payment_methods()
-        return payment_methods_response
+        return adyen_payment_methods()
 
     @app.route('/api/initiatePayment', methods=['POST'])
     def initiate_payment():
-        payment_response = adyen_payments(request)
-        return payment_response
+        return adyen_payments(request)
 
     @app.route('/api/submitAdditionalDetails', methods=['POST'])
     def payment_details():
-        details_response = get_payment_details(request)
-        return details_response
+        return get_payment_details(request)
 
     @app.route('/api/handleShopperRedirect', methods=['POST', 'GET'])
     def handle_redirect():
