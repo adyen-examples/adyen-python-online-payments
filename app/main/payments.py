@@ -62,7 +62,7 @@ def adyen_payments(frontend_request):
 		'shopperReference': "Python Checkout Shopper",
 		'returnUrl': "http://localhost:8080/api/handleShopperRedirect?orderRef=" + order_ref,
 		'countryCode': 'NL',
-		'shopperLocale': "en_US",
+		'shopperLocale': "en_NL",
 		'storePaymentMethod': 'true',
 		'merchantAccount': config.merchant_account
 	}
