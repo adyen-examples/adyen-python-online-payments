@@ -1,6 +1,7 @@
 import app.main.config as config
 import Adyen
 import uuid
+import json
 
 '''
 perform a call to /payments
@@ -109,9 +110,10 @@ def adyen_payments(frontend_request):
 	print("/payments request:\n" + str(payments_request))
 
 	payments_response = adyen.checkout.payments(payments_request)
+	formatted_response = json.dumps((json.loads(payments_response.raw_response)))
 
-	print("/payments response:\n" + payments_response.raw_response)
-	return json.loads(payments_response.raw_response)
+	print("/payments response:\n" + formatted_response)
+	return formatted_response
 
 
 def choose_currency(payment_method):
