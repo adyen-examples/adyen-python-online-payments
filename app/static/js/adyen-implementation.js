@@ -3,13 +3,14 @@ const type = JSON.parse(document.getElementById('integration-type').innerHTML);
 
 async function initCheckout() {
 	try {
-		const paymentMethodsResponse = await callServer("/api/getPaymentMethods", {});
+		const checkoutSessionResponse = await callServer("/api/sessions?type=" + type);
+
 		const configuration = {
-			paymentMethodsResponse: filterUnimplemented(paymentMethodsResponse),
 			clientKey,
 			locale: "en_US",
-			environment: "test",
+			environment: "test", // Change this to "live" on production
 			showPayButton: true,
+			session: checkoutSessionResponse,
 			paymentMethodsConfiguration: {
 				ideal: {
 					showImage: true
@@ -29,50 +30,29 @@ async function initCheckout() {
 						value: 1000
 					},
 					environment: "test", // Change this to "live" when you're ready to accept live PayPal payments
-					countryCode: "US", // Only needed for test. This will be automatically retrieved when you are in production.
-					intent: "authorize" // Change this to "authorize" if the payments should not be captured immediately. Contact Support to enable this flow.
+					countryCode: "US"   // Only needed for test. This will be automatically retrieved when you are in production.
 				}
 			},
-			onSubmit: (state, component) => {
-				console.log(state);
-
-				if (state.isValid) {
-					handleSubmission(state, component, "/api/initiatePayment");
-				}
+			onPaymentCompleted: (result, component) => {
+				console.log(result, console);
 			},
-			onAdditionalDetails: (state, component) => {
-				handleSubmission(state, component, "/api/submitAdditionalDetails");
+			onError: (error, component) => {
+				console.error(error.name, error.message, error.stack, component);
 			}
 		};
 
-		const checkout = new AdyenCheckout(configuration);
-		checkout.create(type).mount("#component");
+        // Create an instance of AdyenCheckout using the configuration object.
+		const checkout = await new AdyenCheckout(configuration);
+
+		// Create an instance of Drop-in and mount it to the container you created.
+		const dropinComponent = checkout.create(type).mount("#component");  // pass DIV id where component must be rendered
+
 	} catch (error) {
 		console.error(error);
 		alert("Error occurred. Look at console for details");
 	}
 }
 
-function filterUnimplemented(pm) {
-	pm.paymentMethods = pm.paymentMethods.filter((it) =>
-		[
-			"scheme",
-			"ideal",
-			"dotpay",
-			"giropay",
-			"sepadirectdebit",
-			"directEbanking",
-			"ach",
-			"alipay",
-			"klarna_paynow",
-			"klarna",
-			"klarna_account",
-			"paypal",
-			"boletobancario_santander"
-		].includes(it.type)
-	);
-	return pm;
-}
 
 // Event handlers called when the shopper selects the pay button,
 // or when additional information is required to complete the payment
