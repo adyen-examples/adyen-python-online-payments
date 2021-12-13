@@ -3,13 +3,12 @@ import os
 from flask import Flask, render_template, send_from_directory, request, redirect, url_for, abort
 
 from .main.config import read_config
-from .main.payments import adyen_payments
-from .main.payment_methods import adyen_payment_methods
 from .main.redirect import handle_shopper_redirect
-from .main.additional_details import get_payment_details
 import app.main.config as config
 
-# Fusion Application Factory
+from .main.sessions import adyen_sessions
+
+
 def create_app():
     app = Flask('app')
 
