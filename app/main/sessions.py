@@ -27,10 +27,7 @@ def adyen_sessions():
 
     result = adyen.checkout.sessions(request)
 
-    print("/result:\n" + str(result))
-
     formatted_response = json.dumps((json.loads(result.raw_response)))
-    # formatted_response = json.dumps((json.loads(result)))
     print("/sessions response:\n" + formatted_response)
 
     return formatted_response
