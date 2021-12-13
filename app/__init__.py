@@ -40,18 +40,6 @@ def create_app():
     def sessions():
         return adyen_sessions()
 
-    @app.route('/api/getPaymentMethods', methods=['GET', 'POST'])
-    def get_payment_methods():
-        return adyen_payment_methods()
-
-    @app.route('/api/initiatePayment', methods=['POST'])
-    def initiate_payment():
-        return adyen_payments(request)
-
-    @app.route('/api/submitAdditionalDetails', methods=['POST'])
-    def payment_details():
-        return get_payment_details(request)
-
     @app.route('/api/handleShopperRedirect', methods=['POST', 'GET'])
     def handle_redirect():
         values = request.values.to_dict()  # Get values from query params in request object
