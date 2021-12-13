@@ -37,6 +37,10 @@ def create_app():
         else:
             abort(404)
 
+    @app.route('/api/sessions', methods=['POST'])
+    def sessions():
+        return adyen_sessions()
+
     @app.route('/api/getPaymentMethods', methods=['GET', 'POST'])
     def get_payment_methods():
         return adyen_payment_methods()
