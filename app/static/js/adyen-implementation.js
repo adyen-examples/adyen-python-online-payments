@@ -1,5 +1,6 @@
 const clientKey = JSON.parse(document.getElementById('client-key').innerHTML);
 const type = JSON.parse(document.getElementById('integration-type').innerHTML);
+const platform = JSON.parse(document.getElementById('platform').innerHTML);
 
 async function initCheckout() {
 	try {
@@ -8,7 +9,7 @@ async function initCheckout() {
 		const configuration = {
 			clientKey,
 			locale: "en_US",
-			environment: "test", // Change this to "live" on production
+			environment: platform,
 			showPayButton: true,
 			session: checkoutSessionResponse,
 			paymentMethodsConfiguration: {
@@ -29,7 +30,7 @@ async function initCheckout() {
 						currency: "USD",
 						value: 1000
 					},
-					environment: "test", // Change this to "live" when you're ready to accept live PayPal payments
+					environment: platform,
 					countryCode: "US"   // Only needed for test. This will be automatically retrieved when you are in production.
 				}
 			},

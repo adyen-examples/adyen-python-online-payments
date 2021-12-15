@@ -1,9 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
+
+var platform = JSON.parse('{{ platform | tojson | safe}}');
+
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/5.0.0/adyen.css"
+    <link rel="stylesheet" href="https://checkoutshopper-{{ platform }}.adyen.com/checkoutshopper/sdk/5.0.0/adyen.css"
           integrity="sha384-0IvbHDeulbhdg1tMDeFeGlmjiYoVT6YsbfAMKFU2lFd6YKUVk0Hgivcmva3j6mkK"
           crossorigin="anonymous">
 
@@ -21,12 +24,13 @@
 	</div>
 
 
-    <script src="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/5.0.0/adyen.js"
+    <script src="https://checkoutshopper-{{ platform }}.adyen.com/checkoutshopper/sdk/5.0.0/adyen.js"
             integrity="sha384-kcKKvS6qZbXycrUw31OJ2/2Hz8A8FTsV9anjvpyQc/IWR1SmkFUw7w7F/t5S3qtA"
             crossorigin="anonymous"></script>
 
 	<script id="client-key" type="application/json">{{ client_key|tojson }}</script>
 	<script id="integration-type" type="application/json">{{ method|tojson }}</script>
+	<script id="platform" type="application/json">{{ platform|tojson }}</script>
 
 	<script src="{{ url_for('static', filename='js/adyen-implementation.js') }}"></script>
 {% endblock %}

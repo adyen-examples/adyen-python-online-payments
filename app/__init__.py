@@ -30,9 +30,10 @@ def create_app():
     @app.route('/checkout/<integration>')
     def checkout(integration):
         client_key = config.client_key
+        platform = config.platform
 
         if integration in config.supported_integrations:
-            return render_template('component.html', method=integration, client_key=client_key)
+            return render_template('component.html', method=integration, client_key=client_key, platform=platform)
         else:
             abort(404)
 

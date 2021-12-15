@@ -14,7 +14,7 @@ Your backend should have a payment state where you can fetch information like am
 def adyen_sessions():
     adyen = Adyen.Adyen()
     adyen.payment.client.xapikey = config.checkout_apikey
-    adyen.payment.client.platform = 'test'
+    adyen.payment.client.platform = config.platform
     adyen.payment.client.merchant_account = config.merchant_account
     adyen.payment.client.hmac = "HMAC key"
 

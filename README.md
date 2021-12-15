@@ -47,6 +47,7 @@ Please make sure to [add the above payment methods to your Adyen account](https:
    merchant_account = TestMerchantAccount
    checkout_apikey = SampleAPIKey
    client_key = SampleClientKey
+   platform = test # change to live on production
    ```
 3. Run `./start.sh` to:
    - Initialize the required environment variables. This step is necessary every time you re-activate your (venv)
