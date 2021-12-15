@@ -3,9 +3,9 @@ import Adyen
 import json
 
 '''
-Create Payment Session by calling /sessions
+Create Payment Session by calling /sessions endpoint
 
-Request must provide few mandatory attributes (merchantAccount, amount, returnUrl, transaction reference)
+Request must provide few mandatory attributes (amount, currency, returnUrl, transaction reference)
 
 Your backend should have a payment state where you can fetch information like amount and shopperReference
 '''
@@ -13,15 +13,15 @@ Your backend should have a payment state where you can fetch information like am
 
 def adyen_sessions():
     adyen = Adyen.Adyen()
-    adyen.client.platform = 'test'
-    adyen.client.xapikey = config.checkout_apikey
-    adyen.client.app_name = 'myapp'
+    adyen.payment.client.xapikey = config.checkout_apikey
+    adyen.payment.client.platform = 'test'
+    adyen.payment.client.merchant_account = config.merchant_account
+    adyen.payment.client.hmac = "HMAC key"
 
     request = {}
 
     request['amount'] = {"value": "1000", "currency": "EUR"}
     request['reference'] = "YOUR_PAYMENT_REFERENCE"
-    request['merchantAccount'] = config.merchant_account
     request['returnUrl'] = "https://your-company.com/checkout?shopperOrder=12xy.."
     request['countryCode'] = "NL"
 
