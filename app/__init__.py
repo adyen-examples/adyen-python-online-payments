@@ -77,6 +77,14 @@ def create_app():
     def checkout_error():
         return render_template('checkout-failed.html')
 
+    # Handle redirect (required for some payment methods)
+    @app.route('/redirect', methods=['POST', 'GET'])
+    def redirect():
+        client_key = config.client_key
+        platform = config.platform
+
+        return render_template('component.html', method=None, client_key=client_key, platform=platform)
+
     @app.route('/favicon.ico')
     def favicon():
         return send_from_directory(os.path.join(app.root_path, 'static'),
