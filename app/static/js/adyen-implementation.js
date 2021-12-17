@@ -2,48 +2,20 @@ const clientKey = JSON.parse(document.getElementById('client-key').innerHTML);
 const type = JSON.parse(document.getElementById('integration-type').innerHTML);
 const platform = JSON.parse(document.getElementById('platform').innerHTML);
 
-async function initCheckout() {
+// Used to finalize a checkout call in case of redirect
+const urlParams = new URLSearchParams(window.location.search);
+const sessionId = urlParams.get('sessionId'); // Unique identifier for the payment session
+const redirectResult = urlParams.get('redirectResult');
+
+
+// Start the Checkout workflow
+async function startCheckout() {
 	try {
+	    // Init Sessions
 		const checkoutSessionResponse = await callServer("/api/sessions?type=" + type);
 
-		const configuration = {
-			clientKey,
-			locale: "en_US",
-			environment: platform,
-			showPayButton: true,
-			session: checkoutSessionResponse,
-			paymentMethodsConfiguration: {
-				ideal: {
-					showImage: true
-				},
-				card: {
-					hasHolderName: true,
-					holderNameRequired: true,
-					name: "Credit or debit card",
-					amount: {
-						value: 1000,
-						currency: "EUR"
-					}
-				},
-				paypal: {
-					amount: {
-						currency: "USD",
-						value: 1000
-					},
-					environment: platform,
-					countryCode: "US"   // Only needed for test. This will be automatically retrieved when you are in production.
-				}
-			},
-			onPaymentCompleted: (result, component) => {
-				console.log(result, console);
-			},
-			onError: (error, component) => {
-				console.error(error.name, error.message, error.stack, component);
-			}
-		};
-
-        // Create an instance of AdyenCheckout using the configuration object.
-		const checkout = await new AdyenCheckout(configuration);
+        // Create AdyenCheckout using Sessions response
+		const checkout = await createAdyenCheckout(checkoutSessionResponse)
 
 		// Create an instance of Drop-in and mount it to the container you created.
 		const dropinComponent = checkout.create(type).mount("#component");  // pass DIV id where component must be rendered
@@ -52,6 +24,62 @@ async function initCheckout() {
 		console.error(error);
 		alert("Error occurred. Look at console for details");
 	}
+}
+
+// Some payment methods use redirects. This is where we finalize the operation
+async function finalizeCheckout() {
+    try {
+        // Create AdyenCheckout re-using existing Session
+        const checkout = await createAdyenCheckout({id: sessionId});
+
+        // Submit the extracted redirectResult (to trigger onPaymentCompleted(result, component) handler)
+        checkout.submitDetails({details: {redirectResult}});
+    } catch (error) {
+        console.error(error);
+        alert("Error occurred. Look at console for details");
+    }
+}
+
+async function createAdyenCheckout(session) {
+
+    const configuration = {
+        clientKey,
+        locale: "en_US",
+        environment: platform,
+        showPayButton: true,
+        session: session,
+        paymentMethodsConfiguration: {
+            ideal: {
+                showImage: true
+            },
+            card: {
+                hasHolderName: true,
+                holderNameRequired: true,
+                name: "Credit or debit card",
+                amount: {
+                    value: 1000,
+                    currency: "EUR"
+                }
+            },
+            paypal: {
+                amount: {
+                    currency: "USD",
+                    value: 1000
+                },
+                environment: platform,
+                countryCode: "US"   // Only needed for test. This will be automatically retrieved when you are in production.
+            }
+        },
+        onPaymentCompleted: (result, component) => {
+            console.log("result: " + result);
+            handleServerResponse(result, component);
+        },
+        onError: (error, component) => {
+            console.error(error.name, error.message, error.stack, component);
+        }
+    };
+
+    return new AdyenCheckout(configuration);
 }
 
 
@@ -103,4 +131,11 @@ function handleServerResponse(res, component) {
 	}
 }
 
-initCheckout();
+if (!sessionId) {
+    startCheckout();
+}
+else {
+    // existing session: complete Checkout
+    finalizeCheckout();
+}
+
