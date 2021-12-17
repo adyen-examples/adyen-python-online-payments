@@ -83,18 +83,6 @@ async function createAdyenCheckout(session) {
 }
 
 
-// Event handlers called when the shopper selects the pay button,
-// or when additional information is required to complete the payment
-async function handleSubmission(state, component, url) {
-	try {
-		const res = await callServer(url, state.data);
-		handleServerResponse(res, component);
-	} catch (error) {
-		console.error(error);
-		alert("Error occurred. Look at console for details");
-	}
-}
-
 // Calls your server endpoints
 async function callServer(url, data) {
 	const res = await fetch(url, {
