@@ -85,6 +85,21 @@ def create_app():
 
         return render_template('component.html', method=None, client_key=client_key, platform=platform)
 
+
+    @app.route('/api/webhook/notifications', methods=['POST'])
+    def webhook_notifications():
+        """
+        Receives outcome of each payment
+        :return:
+        """
+        notifications = request.json['notificationItems']
+
+        for notification in notifications:
+            print(f"merchantReference: {notification['NotificationRequestItem']['merchantReference']} "
+                  f"result? {notification['NotificationRequestItem']['success']}")
+
+        return '[accepted]'
+
     @app.route('/favicon.ico')
     def favicon():
         return send_from_directory(os.path.join(app.root_path, 'static'),
