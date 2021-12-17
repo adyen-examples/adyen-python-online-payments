@@ -3,7 +3,6 @@ import os
 from flask import Flask, render_template, send_from_directory, request, redirect, url_for, abort
 
 from .main.config import read_config
-from .main.redirect import handle_shopper_redirect
 import app.main.config as config
 
 from .main.sessions import adyen_sessions
@@ -40,26 +39,6 @@ def create_app():
     @app.route('/api/sessions', methods=['POST'])
     def sessions():
         return adyen_sessions()
-
-    @app.route('/api/handleShopperRedirect', methods=['POST', 'GET'])
-    def handle_redirect():
-        values = request.values.to_dict()  # Get values from query params in request object
-        details_request = {}
-
-        if "payload" in values:
-            details_request["details"] = {"payload": values["payload"]}
-        elif "redirectResult" in values:
-            details_request["details"] = {"redirectResult": values["redirectResult"]}
-
-        redirect_response = handle_shopper_redirect(details_request)
-
-        # Redirect shopper to landing page depending on payment success/failure
-        if redirect_response["resultCode"] == 'Authorised':
-            return redirect(url_for('checkout_success'))
-        elif redirect_response["resultCode"] == 'Received' or redirect_response["resultCode"] == 'Pending':
-            return redirect(url_for('checkout_pending'))
-        else:
-            return redirect(url_for('checkout_failure'))
 
     @app.route('/result/success', methods=['GET'])
     def checkout_success():
