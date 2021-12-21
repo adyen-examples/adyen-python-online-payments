@@ -70,7 +70,6 @@ async function createAdyenCheckout(session) {
             }
         },
         onPaymentCompleted: (result, component) => {
-            console.log("result: " + result);
             handleServerResponse(result, component);
         },
         onError: (error, component) => {
