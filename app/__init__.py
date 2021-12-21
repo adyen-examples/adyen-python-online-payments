@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, send_from_directory, request, redirect, url_for, abort
+from flask import Flask, render_template, send_from_directory, request, abort
 
 from .main.config import read_config
 import app.main.config as config
@@ -29,10 +29,9 @@ def create_app():
     @app.route('/checkout/<integration>')
     def checkout(integration):
         client_key = config.client_key
-        platform = config.platform
 
         if integration in config.supported_integrations:
-            return render_template('component.html', method=integration, client_key=client_key, platform=platform)
+            return render_template('component.html', method=integration, client_key=client_key)
         else:
             abort(404)
 
@@ -60,9 +59,8 @@ def create_app():
     @app.route('/redirect', methods=['POST', 'GET'])
     def redirect():
         client_key = config.client_key
-        platform = config.platform
 
-        return render_template('component.html', method=None, client_key=client_key, platform=platform)
+        return render_template('component.html', method=None, client_key=client_key)
 
 
     @app.route('/api/webhook/notifications', methods=['POST'])
