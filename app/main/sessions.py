@@ -1,6 +1,7 @@
 import app.main.config as config
 import Adyen
 import json
+import uuid
 
 '''
 Create Payment Session by calling /sessions endpoint
@@ -14,14 +15,13 @@ Your backend should have a payment state where you can fetch information like am
 def adyen_sessions():
     adyen = Adyen.Adyen()
     adyen.payment.client.xapikey = config.checkout_apikey
-    adyen.payment.client.platform = config.platform
+    adyen.payment.client.platform = "test" # change to live for production
     adyen.payment.client.merchant_account = config.merchant_account
-    adyen.payment.client.hmac = "HMAC key"
 
     request = {}
 
     request['amount'] = {"value": "1000", "currency": "EUR"}
-    request['reference'] = "YOUR_PAYMENT_REFERENCE"
+    request['reference'] = f"Reference {uuid.uuid4()}"  # provide your unique payment reference
     # set redirect URL required for some payment methods
     request['returnUrl'] = f"http://localhost:8080/redirect?shopperOrder=myRef"
     request['countryCode'] = "NL"
