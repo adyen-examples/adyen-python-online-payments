@@ -29,7 +29,8 @@ Please make sure to [add the above payment methods to your Adyen account](https:
 - Python 3.5 or greater
 - Python libraries:
   - flask
-  - Adyen
+  - uuid
+  - Adyen v6.0.0 or higher
 
 ## Installation
 
