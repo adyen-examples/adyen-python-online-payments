@@ -1,5 +1,6 @@
 import os
 
+from Adyen.util import is_valid_hmac_notification
 from flask import Flask, render_template, send_from_directory, request, abort
 
 from .main.config import read_config
@@ -72,8 +73,11 @@ def create_app():
         notifications = request.json['notificationItems']
 
         for notification in notifications:
-            print(f"merchantReference: {notification['NotificationRequestItem']['merchantReference']} "
-                  f"result? {notification['NotificationRequestItem']['success']}")
+            if is_valid_hmac_notification(notification['NotificationRequestItem'], config.hmac_key) :
+                print(f"merchantReference: {notification['NotificationRequestItem']['merchantReference']} "
+                      f"result? {notification['NotificationRequestItem']['success']}")
+            else:
+                raise Exception("Invalid HMAC signature")
 
         return '[accepted]'
 
