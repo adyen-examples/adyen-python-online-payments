@@ -43,16 +43,27 @@ Please make sure to [add the above payment methods to your Adyen account](https:
 ## Usage
 
 1. Run `./setup.sh` to install dependencies and to activate your `venv` if you haven't done already in above steps
-2. Update the config file `config.ini` with your [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key), [Client Key](https://docs.adyen.com/user-management/client-side-authentication) - Remember to add `http://localhost:8080` as an origin for client key, and merchant account name like below:
+
+2. Update the config file `config.ini` with all required configuration 
+
+   - [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key)
+   - [Client Key](https://docs.adyen.com/user-management/client-side-authentication) 
+   - [Merchant Account](https://docs.adyen.com/account/account-structure)
+   - [HMAC Key](https://docs.adyen.com/development-resources/webhooks/verify-hmac-signatures)
+
+Remember to include `http://localhost:8080` in the list of Allowed Origins
+
    ```
-   merchant_account = TestMerchantAccount
-   checkout_apikey = SampleAPIKey
-   client_key = SampleClientKey
+   merchant_account = "your_merchant_account_here"
+   apikey = "your_API_key_here"
+   client_key = "your_client_key_here"
+   hmac_key = "your_client_HMAC_key_here"
    ```
-3. Run `./start.sh` to:
+
+5. Run `./start.sh` to:
    - Initialize the required environment variables. This step is necessary every time you re-activate your (venv)
    - Run flask
-4. Visit [http://localhost:8080](http://localhost:8080) and select an integration type!
+6. Visit [http://localhost:8080](http://localhost:8080) and select an integration type!
 
 ## Contributing
 
