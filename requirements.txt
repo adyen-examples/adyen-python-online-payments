@@ -1,3 +1,4 @@
 flask
 Adyen == 6.0.0
 uuid == 1.30
+python-dotenv===0.19.2
