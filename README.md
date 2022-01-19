@@ -35,17 +35,18 @@ Please make sure to [add the above payment methods to your Adyen account](https:
 ## Installation
 
 1. Clone this repo
-2. Navigate to root level of repo
-3. Run `source ./setup.sh` to:
+
+```
+git clone https://github.com/adyen-examples/adyen-python-online-payments.git
+```
+
+2. Run `source ./setup.sh` to:
    - Create and activate a virtual environment
    - Download the necessary python dependencies
 
-## Usage
+3. Create a `.env` file with all required configuration 
 
-1. Run `./setup.sh` to install dependencies and to activate your `venv` if you haven't done already in above steps
-
-2. Update the config file `config.ini` with all required configuration 
-
+   - PORT (default 8080)
    - [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key)
    - [Client Key](https://docs.adyen.com/user-management/client-side-authentication) 
    - [Merchant Account](https://docs.adyen.com/account/account-structure)
@@ -53,17 +54,20 @@ Please make sure to [add the above payment methods to your Adyen account](https:
 
 Remember to include `http://localhost:8080` in the list of Allowed Origins
 
-   ```
-   merchant_account = "your_merchant_account_here"
-   apikey = "your_API_key_here"
-   client_key = "your_client_key_here"
-   hmac_key = "your_client_HMAC_key_here"
-   ```
+```
+    PORT=8080
+    ADYEN_API_KEY="your_API_key_here"
+    ADYEN_MERCHANT_ACCOUNT="your_merchant_account_here"
+    ADYEN_CLIENT_KEY="your_client_key_here"
+    ADYEN_HMAC_KEY="your_hmac_key_here"
+```
 
-5. Run `./start.sh` to:
-   - Initialize the required environment variables. This step is necessary every time you re-activate your (venv)
-   - Run flask
-6. Visit [http://localhost:8080](http://localhost:8080) and select an integration type!
+## Usage
+1. Run `./start.sh` to:
+   - Initialize the required environment variables. This step is necessary every time you re-activate your venv
+   - Start Python app    
+ 
+2. Visit [http://localhost:8080](http://localhost:8080) and select an integration type!
 
 ## Contributing
 
