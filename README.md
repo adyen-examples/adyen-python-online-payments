@@ -63,11 +63,11 @@ Remember to include `http://localhost:8080` in the list of Allowed Origins
 ```
 
 ## Usage
-
 1. Run `./start.sh` to:
-   - Initialize the required environment variables. This step is necessary every time you re-activate your (venv)
-   - Run flask
-2.Visit [http://localhost:8080](http://localhost:8080) and select an integration type!
+   - Initialize the required environment variables. This step is necessary every time you re-activate your venv
+   - Start Python app    
+ 
+2. Visit [http://localhost:8080](http://localhost:8080) and select an integration type!
 
 ## Contributing
 
