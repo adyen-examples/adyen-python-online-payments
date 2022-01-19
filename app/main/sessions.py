@@ -1,7 +1,7 @@
-import app.main.config as config
 import Adyen
 import json
 import uuid
+from main.config import get_adyen_api_key, get_adyen_merchant_account
 
 '''
 Create Payment Session by calling /sessions endpoint
@@ -14,9 +14,9 @@ Your backend should have a payment state where you can fetch information like am
 
 def adyen_sessions():
     adyen = Adyen.Adyen()
-    adyen.payment.client.xapikey = config.checkout_apikey
+    adyen.payment.client.xapikey = get_adyen_api_key()
     adyen.payment.client.platform = "test" # change to live for production
-    adyen.payment.client.merchant_account = config.merchant_account
+    adyen.payment.client.merchant_account = get_adyen_merchant_account()
 
     request = {}
 
