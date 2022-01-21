@@ -35,7 +35,9 @@ def create_app():
 
     @app.route('/api/sessions', methods=['POST'])
     def sessions():
-        return adyen_sessions()
+        host_url = request.host_url 
+
+        return adyen_sessions(host_url)
 
     @app.route('/result/success', methods=['GET'])
     def checkout_success():
@@ -73,6 +75,7 @@ def create_app():
                 print(f"merchantReference: {notification['NotificationRequestItem']['merchantReference']} "
                       f"result? {notification['NotificationRequestItem']['success']}")
             else:
+                # invalid hmac: do not send [accepted] response
                 raise Exception("Invalid HMAC signature")
 
         return '[accepted]'
@@ -92,7 +95,7 @@ def page_not_found(error):
 if __name__ == '__main__':
     web_app = create_app()
 
-    print(f"Running on http://localhost:{get_port()}")
+    logging.info(f"Running on http://localhost:{get_port()}")
     web_app.run(debug=True, port=get_port(), host='0.0.0.0')
 
 
