@@ -9,10 +9,14 @@ Create Payment Session by calling /sessions endpoint
 Request must provide few mandatory attributes (amount, currency, returnUrl, transaction reference)
 
 Your backend should have a payment state where you can fetch information like amount and shopperReference
+
+Parameters
+    ----------
+    host_url : string
+        URL of the host (i.e. http://localhost:8080): required to define returnUrl parameter
 '''
-
-
-def adyen_sessions():
+def adyen_sessions(host_url):
+    
     adyen = Adyen.Adyen()
     adyen.payment.client.xapikey = get_adyen_api_key()
     adyen.payment.client.platform = "test" # change to live for production
@@ -23,7 +27,7 @@ def adyen_sessions():
     request['amount'] = {"value": "1000", "currency": "EUR"}
     request['reference'] = f"Reference {uuid.uuid4()}"  # provide your unique payment reference
     # set redirect URL required for some payment methods
-    request['returnUrl'] = f"http://localhost:8080/redirect?shopperOrder=myRef"
+    request['returnUrl'] = f"{host_url}/redirect?shopperOrder=myRef"
     request['countryCode'] = "NL"
 
     result = adyen.checkout.sessions(request)
