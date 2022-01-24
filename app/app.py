@@ -61,8 +61,8 @@ def create_app():
 
         return render_template('component.html', method=None, client_key=get_adyen_client_key())
 
-
-    @app.route('/api/webhook/notifications', methods=['POST'])
+    # Process incoming webhook notifications
+    @app.route('/api/webhooks/notifications', methods=['POST'])
     def webhook_notifications():
         """
         Receives outcome of each payment
