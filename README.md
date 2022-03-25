@@ -1,5 +1,18 @@
 # [Adyen Checkout](https://docs.adyen.com/checkout) integration demo
 
+## Run this integration in seconds using [Gitpod](https://gitpod.io/)
+
+* Open your [Adyen Test Account](https://ca-test.adyen.com/ca/ca/overview/default.shtml) and create a set of [API keys](https://docs.adyen.com/user-management/how-to-get-the-api-key).
+* Go to [gitpod account variables](https://gitpod.io/variables).
+* Set the `ADYEN_API_KEY`, `ADYEN_CLIENT_KEY`, `ADYEN_HMAC_KEY` and `ADYEN_MERCHANT_ACCOUNT variables`.
+* Click the button below!
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/adyen-examples/adyen-python-online-payments)
+
+_NOTE: To allow the Adyen Drop-In and Components to load, you have to add gitpod.io as allowed origin for your chosen set of [API Credentials](https://ca-test.adyen.com/ca/ca/config/api_credentials_new.shtml)_
+
+## Details
+
 This repository includes examples of PCI-compliant UI integrations for online payments with Adyen. Within this demo app, we've created a simplified version of an e-commerce website, complete with commented code to highlight key features and concepts of Adyen's API. Check out the underlying code to see how you can integrate Adyen to give your shoppers the option to pay with their preferred payment methods, all in a seamless checkout experience.
 
 ![Card Checkout Demo](app/static/img/cardcheckout.gif)
@@ -44,11 +57,11 @@ git clone https://github.com/adyen-examples/adyen-python-online-payments.git
    - Create and activate a virtual environment
    - Download the necessary python dependencies
 
-3. Create a `.env` file with all required configuration 
+3. Create a `.env` file with all required configuration
 
    - PORT (default 8080)
    - [API key](https://docs.adyen.com/user-management/how-to-get-the-api-key)
-   - [Client Key](https://docs.adyen.com/user-management/client-side-authentication) 
+   - [Client Key](https://docs.adyen.com/user-management/client-side-authentication)
    - [Merchant Account](https://docs.adyen.com/account/account-structure)
    - [HMAC Key](https://docs.adyen.com/development-resources/webhooks/verify-hmac-signatures)
 
@@ -65,8 +78,8 @@ Remember to include `http://localhost:8080` in the list of Allowed Origins
 ## Usage
 1. Run `./start.sh` to:
    - Initialize the required environment variables. This step is necessary every time you re-activate your venv
-   - Start Python app    
- 
+   - Start Python app
+
 2. Visit [http://localhost:8080](http://localhost:8080) and select an integration type!
 
 ## Contributing
