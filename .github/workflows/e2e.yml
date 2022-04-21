@@ -20,4 +20,3 @@ jobs:
       - name: Run testing suite
         run: docker run --rm --name adyen-testing-suite --network host ghcr.io/adyen-examples/adyen-testing-suite:main
 
-
