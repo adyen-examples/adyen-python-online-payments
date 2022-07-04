@@ -43,7 +43,7 @@ async function createAdyenCheckout(session) {
 
     const configuration = {
         clientKey,
-        locale: "en_US",
+        locale: "en_GB",
         environment: "test",  // change to live for production
         showPayButton: true,
         session: session,
@@ -117,7 +117,7 @@ function handleServerResponse(res, component) {
 	}
 }
 
-if (!sessionId) {
+if (!redirectResult) {
     startCheckout();
 }
 else {
