@@ -4,6 +4,7 @@ from Adyen.util import is_valid_hmac_notification
 from flask import Flask, render_template, send_from_directory, request, abort
 
 from main.sessions import adyen_sessions
+from main.disable import adyen_disableStoredPayment
 from main.config import *
 
 
@@ -38,6 +39,14 @@ def create_app():
         host_url = request.host_url 
 
         return adyen_sessions(host_url)
+
+    @app.route('/api/remove', methods=['POST'])
+    def disable():
+        data = request.get_json()
+        
+        print("This is the data:"+data) 
+
+        return adyen_disableStoredPayment(data)
 
     @app.route('/result/success', methods=['GET'])
     def checkout_success():
