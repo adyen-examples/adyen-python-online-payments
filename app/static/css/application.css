@@ -300,11 +300,14 @@ a:hover {
 	}
 }
 
-.checkout-component-container {
-	border: none;
-	padding: 0;
-	margin: 8px 0;
 .payment-container {
+  display: flex;
+  justify-content: center;
+  background: #f7f8f9;
+  border: 1px solid #e6e9eb;
+  border-radius: 12px;
+  padding-top: 18px;
+  padding-bottom: 18px;
 	width: 100%;
 	height: 100%;
 }
