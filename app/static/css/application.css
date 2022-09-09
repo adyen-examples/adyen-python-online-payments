@@ -304,6 +304,7 @@ a:hover {
 	border: none;
 	padding: 0;
 	margin: 8px 0;
+.payment-container {
 	width: 100%;
 	height: 100%;
 }
