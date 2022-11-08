@@ -56,14 +56,14 @@ async function createAdyenCheckout(session) {
                 holderNameRequired: true,
                 name: "Credit or debit card",
                 amount: {
-                    value: 1000,
+                    value: 10000, // 100€ in minor units
                     currency: "EUR"
                 }
             },
             paypal: {
                 amount: {
                     currency: "USD",
-                    value: 1000
+                    value: 10000 // 100€ in minor units
                 },
                 environment: "test",
                 countryCode: "US"   // Only needed for test. This will be automatically retrieved when you are in production.

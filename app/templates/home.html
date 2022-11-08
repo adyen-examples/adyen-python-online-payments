@@ -98,6 +98,27 @@
                     </div>
                 </a>
             </li>
+            <li class="integration-list-item">
+                <a class="integration-list-item-link" href="{{ url_for('cart', integration="klarna_paynow") }}">
+                    <div class="title-container">
+                        <p class="integration-list-item-title">Klarna - Pay now</p>
+                    </div>
+                </a>
+            </li>
+            <li class="integration-list-item">
+                <a class="integration-list-item-link" href="{{ url_for('cart', integration="klarna") }}">
+                    <div class="title-container">
+                    <p class="integration-list-item-title">Klarna - Pay later</p>
+                    </div>
+                </a>
+            </li>
+            <li class="integration-list-item">
+                <a class="integration-list-item-link" href="{{ url_for('cart', integration="klarna_account") }}">
+                    <div class="title-container">
+                    <p class="integration-list-item-title">Klarna - Slice it</p>
+                    </div>
+                </a>
+            </li>
         </ul>
     </div>
 {% endblock %}
