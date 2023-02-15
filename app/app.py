@@ -69,14 +69,15 @@ def create_app():
         :return:
         """
         notifications = request.json['notificationItems']
+        # fetch first( and only) NotificationRequestItem
+        notification = notifications[0]
 
-        for notification in notifications:
-            if is_valid_hmac_notification(notification['NotificationRequestItem'], get_adyen_hmac_key()) :
-                print(f"merchantReference: {notification['NotificationRequestItem']['merchantReference']} "
-                      f"result? {notification['NotificationRequestItem']['success']}")
-            else:
-                # invalid hmac: do not send [accepted] response
-                raise Exception("Invalid HMAC signature")
+        if is_valid_hmac_notification(notification['NotificationRequestItem'], get_adyen_hmac_key()) :
+            # consume event asynchronously
+            consume_event(notification)
+        else:
+            # invalid hmac: do not send [accepted] response
+            raise Exception("Invalid HMAC signature")
 
         return '[accepted]'
 
@@ -86,6 +87,14 @@ def create_app():
                                    'img/favicon.ico')
 
     return app
+
+
+#  process payload asynchronously
+def consume_event(notification):
+    print(f"consume_event merchantReference: {notification['NotificationRequestItem']['merchantReference']} "
+          f"result? {notification['NotificationRequestItem']['success']}")
+
+    # add item to DB, queue or run in a different thread
 
 
 def page_not_found(error):
