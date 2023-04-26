@@ -36,7 +36,9 @@ def adyen_sessions(host_url):
         [{"quantity": 1, "amountIncludingTax": 5000, "description": "Sunglasses"}, # amount in minor units
          {"quantity": 1, "amountIncludingTax": 5000, "description": "Headphones"}] # amount in minor units
 
-    result = adyen.checkout.sessions(request)
+    request['merchantAccount'] = get_adyen_merchant_account()
+
+    result = adyen.checkout.payments_api.sessions(request)
 
     formatted_response = json.dumps((json.loads(result.raw_response)))
     print("/sessions response:\n" + formatted_response)
