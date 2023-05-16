@@ -1,4 +1,4 @@
-# [Adyen Checkout](https://docs.adyen.com/checkout) integration demo
+# Adyen [online payment](https://docs.adyen.com/online-payments) integration demos
 
 ## Run this integration in seconds using [Gitpod](https://gitpod.io/)
 
@@ -19,10 +19,11 @@ This repository includes examples of PCI-compliant UI integrations for online pa
 
 ## Supported Integrations
 
-**Python with Flask** demos of the following client-side integrations are available in this repository:
 
-- [Drop-in](https://docs.adyen.com/checkout/drop-in-web)
-- [Component](https://docs.adyen.com/checkout/components-web)
+[Online payments](https://docs.adyen.com/online-payments) **Python with Flask** demos of the following client-side integrations are available in this repository:
+
+- Drop-in
+- Components
   - ACH
   - Alipay
   - Boleto
