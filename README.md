@@ -36,7 +36,7 @@ This repository includes examples of PCI-compliant UI integrations for online pa
   - SEPA Direct Debit
   - Sofort
 
-Please make sure to [add the above payment methods to your Adyen account](https://docs.adyen.com/payment-methods#add-payment-methods-to-your-account) before testing!
+The Demo leverages Adyen's API Library for Python [GitHub](https://github.com/Adyen/adyen-python-api-library) | [Docs](https://github.com/Adyen/adyen-python-api-library).
 
 ## Requirements
 
@@ -44,7 +44,7 @@ Please make sure to [add the above payment methods to your Adyen account](https:
 - Python libraries:
   - flask
   - uuid
-  - Adyen v6.0.0 or higher
+  - Adyen v8.0.0 or higher
 
 ## Installation
 
