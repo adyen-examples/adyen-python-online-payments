@@ -79,7 +79,7 @@ def create_app():
             # invalid hmac: do not send [accepted] response
             raise Exception("Invalid HMAC signature")
 
-        return '[accepted]'
+        return '', 202
 
     @app.route('/favicon.ico')
     def favicon():
