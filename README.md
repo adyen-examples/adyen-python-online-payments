@@ -26,7 +26,7 @@ The Demo leverages Adyen's API Library for Python [GitHub](https://github.com/Ad
 - Python libraries:
   - flask
   - uuid
-  - Adyen v8.0.0 or higher
+  - Adyen v12.0.0 or higher
 
 ## Installation
 
