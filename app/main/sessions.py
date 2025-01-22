@@ -28,7 +28,7 @@ def adyen_sessions(host_url):
     request['amount'] = {"value": "10000", "currency": "EUR"}  # amount in minor units
     request['reference'] = f"Reference {uuid.uuid4()}"  # provide your unique payment reference
     # set redirect URL required for some payment methods
-    request['returnUrl'] = f"{host_url}/redirect?shopperOrder=myRef"
+    request['returnUrl'] = f"{host_url}handleShopperRedirect?shopperOrder=myRef"
     request['countryCode'] = "NL"
 
     # set lineItems: required for some payment methods (ie Klarna)
