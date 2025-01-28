@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+	<!-- Adyen css from TEST environment (change to live for production)-->
+	<link rel="stylesheet"
+     	href="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/5.68.0/adyen.css"
+     	integrity="sha384-gpOE6R0K50VgXe6u/pyjzkKl4Kr8hXu93KUCTmC4LqbO9mpoGUYsrmeVLcp2eejn"
+     	crossorigin="anonymous">
+
+	<div id="payment-page">
+		<div class="container">
+			<div class="payment-container">
+
+				<div id="component" class="payment">
+					<!-- Component will be rendered here -->
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Adyen JS from TEST environment (change to live for production)-->
+	<script src="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/5.68.0/adyen.js"
+     	integrity="sha384-U9GX6Oa3W024049K86PYG36/jHjkvUqsRd8Y9cF1CmB92sm4tnjxDXF/tkdcsk6k"
+     	crossorigin="anonymous"></script>
+
+	<script id="client-key" type="application/json">{{ client_key|tojson }}</script>
+	<script id="integration-type" type="application/json">{{ method|tojson }}</script>
+
+	<script src="{{ url_for('static', filename='js/adyen-implementation.js') }}"></script>
+{% endblock %}

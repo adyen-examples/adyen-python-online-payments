@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}Page Not Found{% endblock %}
+
+{% block content %}
+    <p/>
+    <p/>
+    <title>Error</title>
+
+    <div class="status-container">
+        <div class="status">
+            <p class="status-message">Error!</p>
+            <p class="status-message">Review response in console and refer to <a
+                    href="https://docs.adyen.com/development-resources/response-handling">Response handling.</a></p>
+            <a class="button" href="{{ url_for('home') }}">Return Home</a>
+        </div>
+    </div>
+{% endblock %}
