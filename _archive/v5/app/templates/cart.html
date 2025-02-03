@@ -22,7 +22,7 @@
                 </ul>
             </div>
             <div class="cart-footer"><span class="cart-footer-label">Total:</span><span class="cart-footer-amount">€100.00</span>
-                <a href="/checkout/{{ method }}">
+                <a href="{{ url_for('checkout', integration=method) }}">
                     <p class="button">Continue to checkout</p>
                 </a>
             </div>

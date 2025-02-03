@@ -18,16 +18,28 @@ on:
       - LICENSE
 
 jobs:
-  checkout:
-
+  # e2e testing with Drop-in v5 (see /_archive/v5 folder)
+  checkout-v5:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Build image (application)
-        run: docker build -t test-image:latest .
+        run: docker build -t test-image-v5:latest -f ./_archive/v5/Dockerfile ./_archive/v5
       - name: Start container (application)
-        run: docker run --rm -d --name test-image -p 8080:8080 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} test-image:latest
+        run: docker run --rm -d --name test-image-v5 -p 8080:8080 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} test-image-v5:latest
       - name: Run testing suite
-        run: docker run --rm --name adyen-testing-suite -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} --network host ghcr.io/adyen-examples/adyen-testing-suite:main
+        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=checkout/v5 -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} --network host ghcr.io/adyen-examples/adyen-testing-suite:main
 
+  # e2e testing with Drop-in v6
+  checkout-v6:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v3
+      - name: Build image (application)
+        run: docker build -t test-image-v6:latest .
+      - name: Start container (application)
+        run: docker run --rm -d --name test-image-v6 -p 8080:8080 -e ADYEN_API_KEY="${{ secrets.ADYEN_API_KEY }}" -e ADYEN_MERCHANT_ACCOUNT=${{ secrets.ADYEN_MERCHANT_ACCOUNT }} -e ADYEN_CLIENT_KEY=${{ secrets.ADYEN_CLIENT_KEY }} -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} test-image-v6:latest
+      - name: Run testing suite
+        run: docker run --rm --name adyen-testing-suite -e PLAYWRIGHT_FOLDERNAME=checkout/v6 -e ADYEN_HMAC_KEY=${{ secrets.ADYEN_HMAC_KEY }} --network host ghcr.io/adyen-examples/adyen-testing-suite:main
