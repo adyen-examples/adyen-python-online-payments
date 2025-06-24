@@ -14,9 +14,9 @@ async function startCheckout() {
     const configuration = {
       session: session,
       clientKey,
-      environment: "test",
+      environment: "live-in",
       locale: "en_US",
-      countryCode: "NL",
+      countryCode: "IN",
       showPayButton: true,
       translations: {
         "en-US": {
@@ -44,7 +44,7 @@ async function startCheckout() {
         holderNameRequired: true,
         amount: {
           value: 10000,
-          currency: "EUR",
+          currency: "INR",
         },
         placeholders: {
           cardNumber: "1234 5678 9012 3456",
