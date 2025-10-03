@@ -1,4 +1,7 @@
-import Adyen
+# Import the core client and the service-level API class
+from Adyen.client import AdyenClient
+from Adyen.services import AdyenCheckoutApi
+
 import json
 import uuid
 from main.config import get_adyen_api_key, get_adyen_merchant_account
@@ -19,10 +22,10 @@ Parameters
 
 def adyen_sessions(host_url):
     # Create and configure the core AdyenClient
-    adyen_client = Adyen.AdyenClient()
+    adyen_client = AdyenClient()
     adyen_client.xapikey = get_adyen_api_key()
     adyen_client.platform = "test" # change to live for production
-    checkout_service = Adyen.AdyenCheckoutApi(client=adyen_client)
+    checkout_service = AdyenCheckoutApi(client=adyen_client)
     
     request = {}
 
