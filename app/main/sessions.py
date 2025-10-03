@@ -18,11 +18,12 @@ Parameters
 
 
 def adyen_sessions(host_url):
-    adyen = Adyen.Adyen()
-    adyen.payment.client.xapikey = get_adyen_api_key()
-    adyen.payment.client.platform = "test"  # change to live for production
-    adyen.payment.client.merchant_account = get_adyen_merchant_account()
-
+    # Create and configure the core AdyenClient
+    adyen_client = AdyenClient()
+    adyen_client.xapikey = get_adyen_api_key()
+    adyen_client.platform = "test" # change to live for production
+    checkout_service = AdyenCheckoutApi(client=adyen_client)
+    
     request = {}
 
     request['amount'] = {"value": "10000", "currency": "EUR"}  # amount in minor units
@@ -38,7 +39,7 @@ def adyen_sessions(host_url):
 
     request['merchantAccount'] = get_adyen_merchant_account()
 
-    result = adyen.checkout.payments_api.sessions(request)
+    result = checkout_service.payments_api.sessions(request)
 
     formatted_response = json.dumps((json.loads(result.raw_response)))
     print("/sessions response:\n" + formatted_response)
