@@ -20,7 +20,7 @@
     }
   },
 
-  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "postAttachCommand": "if [ ! -d 'venv' ]; then bash .devcontainer/setup.sh; fi",
 
   "forwardPorts": [8080],
 
