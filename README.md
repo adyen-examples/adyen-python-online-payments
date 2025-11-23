@@ -9,7 +9,7 @@ This repository showcases a PCI-compliant integration of the [Sessions Flow](htt
 
 ![Card Checkout Demo](app/static/img/cardcheckout.gif)
 
-The demo leverages Adyen's API Library for Python [GitHub](https://github.com/Adyen/adyen-python-api-library) | [Docs]([https://github.com/Adyen/adyen-python-api-library](https://docs.adyen.com/development-resources/libraries?tab=python_5_6#go)).
+The demo leverages Adyen's API Library for Python [GitHub](https://github.com/Adyen/adyen-python-api-library) | [Docs](https://docs.adyen.com/development-resources/libraries?tab=python_5_6#go).
 
 ## Requirements
 
