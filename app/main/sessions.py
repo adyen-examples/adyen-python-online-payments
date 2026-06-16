@@ -25,6 +25,7 @@ def adyen_sessions(host_url):
     adyen_client = AdyenClient()
     adyen_client.xapikey = get_adyen_api_key()
     adyen_client.platform = "test" # change to live for production
+    adyen_client.application_name = "[adyen-python-online-payments checkout-example adyen-web/6.6.0]"
     checkout_service = AdyenCheckoutApi(client=adyen_client)
     
     request = {}
