@@ -4,7 +4,7 @@ from Adyen.services import AdyenCheckoutApi
 
 import json
 import uuid
-from main.config import get_adyen_api_key, get_adyen_merchant_account
+from main.config import configure_adyen_client, get_adyen_merchant_account
 
 '''
 Create Payment Session by calling /sessions endpoint
@@ -22,9 +22,7 @@ Parameters
 
 def adyen_sessions(host_url):
     # Create and configure the core AdyenClient
-    adyen_client = AdyenClient()
-    adyen_client.xapikey = get_adyen_api_key()
-    adyen_client.platform = "test" # change to live for production
+    adyen_client = configure_adyen_client(AdyenClient())
     checkout_service = AdyenCheckoutApi(client=adyen_client)
     
     request = {}

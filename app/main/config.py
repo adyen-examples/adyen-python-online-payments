@@ -4,6 +4,11 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
+ADYEN_WEB_VERSION = "6.6.0"
+ADYEN_CHECKOUT_APPLICATION_NAME = (
+    f"adyen-python-online-payments checkout-example adyen-web/{ADYEN_WEB_VERSION}"
+)
+
 
 def get_port():
     return os.environ.get("PORT", 8080)
@@ -43,6 +48,17 @@ def get_adyen_hmac_key():
         raise Exception("Missing ADYEN_HMAC_KEY in .env")
 
     return adyen_hmac_key
+
+
+def configure_adyen_client(adyen_client):
+    adyen_client.xapikey = get_adyen_api_key()
+    adyen_client.platform = "test"
+
+    user_agent_prefix = f"{ADYEN_CHECKOUT_APPLICATION_NAME} "
+    if not adyen_client.USER_AGENT_SUFFIX.startswith(user_agent_prefix):
+        adyen_client.USER_AGENT_SUFFIX = user_agent_prefix + adyen_client.USER_AGENT_SUFFIX
+
+    return adyen_client
 
 
 def get_supported_integration():

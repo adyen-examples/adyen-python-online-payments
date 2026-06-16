@@ -62,8 +62,7 @@ def create_app():
         print("/handleShopperRedirect")
 
         adyen = Adyen.Adyen()
-        adyen.payment.client.xapikey = get_adyen_api_key()
-        adyen.payment.client.platform = "test"  # change to live for production
+        configure_adyen_client(adyen.payment.client)
         adyen.payment.client.merchant_account = get_adyen_merchant_account()
 
         # Payload for payment/details call
@@ -140,5 +139,4 @@ if __name__ == '__main__':
 
     logging.info(f"Running on http://localhost:{get_port()}")
     web_app.run(debug=True, port=get_port(), host='0.0.0.0')
-
 
