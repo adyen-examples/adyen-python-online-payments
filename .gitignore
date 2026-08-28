@@ -14,3 +14,11 @@ build
 .vscode
 
 .env
+# ---- Transact ----
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+reports/
+.coverage
